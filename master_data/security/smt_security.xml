@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- User Category -->
+        <record model="ir.module.category" id="category_user">
+            <field name="name">Users</field>
+        </record>
+        <record id="groups_smt_sales_1" model="res.groups">
+            <field name="name">Admin Sales 1</field>
+            <field name="category_id" ref="master_data.category_user"/>
+        </record>
+    </data>
+</odoo>

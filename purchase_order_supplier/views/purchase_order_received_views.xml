@@ -1,0 +1,75 @@
+<odoo>
+    <record id="smt_purchase_order_supplier_received_tree" model="ir.ui.view">
+        <field name="name">smt.purchase.order.supplier.received.tree</field>
+        <field name="model">smt.purchase.order.supplier.received</field>
+        <field name="priority" eval="1"/>
+        <field name="arch" type="xml">
+            <tree string="Delivery Order" sample="1" default_order='received_date desc'>
+                <field name="name" string="No. Received" readonly="1" decoration-info="state in ('draft','confirm')"/>
+                <field name="purchase_order_id"/>
+                <field name="received_date"/>
+                <field name="delivery_order"/>
+                <field name="supplier_id" widget="avatar"/>
+                <field name="state" widget="badge" decoration-danger="state == 'draft'" decoration-info="state == 'confirm'" decoration-success="state == 'done'"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="smt_purchase_order_supplier_received_form" model="ir.ui.view">
+        <field name="name">smt.purchase.order.supplier.received.tree</field>
+        <field name="model">smt.purchase.order.supplier.received</field>
+        <field name="priority" eval="1"/>
+        <field name="arch" type="xml">
+            <form string="Delivery Order" class="o_delivery_order">
+                <header>
+                    <button name="set_quantity" states="waiting" string="Set Quantity Product" type="object" class="oe_highlight" data-hotkey="g"/>
+                    <button name="button_received" string="Received Product" type="object" states="waiting" class="oe_highlight" data-hotkey="k"/>
+                    <field name="state" widget="statusbar" statusbar_visible="waiting,done" attrs="{'invisible': [('state', '=', 'done')]}" readonly="1"/>
+                </header>
+                <widget name="web_ribbon" title="Done" bg_color="bg-success" attrs="{'invisible': [('state', '!=', 'done')]}"/>
+                <sheet>
+
+                    <div class="oe_title">
+                        <span class="o_form_label">No. Received</span>
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="purchase_order_id" attrs="{'readonly': [('state','=','done')]}"/>
+                            <field name="supplier_id" attrs="{'readonly': [('state','=','done')]}" />
+                        </group>
+                        <group>
+                            <field name="received_date" attrs="{'readonly': [('state','=','done')]}" />
+                            <field name="delivery_order" required="1" attrs="{'readonly': [('state','=','done')]}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Products" name="products">
+                            <field name="view_received_purchase_order_ids" widget="section_and_note_one2many" mode="tree,kanban" attrs="{'readonly': [('state','=','done')]}">
+                                <tree string="Received Product" editable="bottom">
+                                    <field name="product_id" />
+                                    <field name="description" />
+                                    <field name="quantity_request" />
+                                    <field name="quantity_done" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="smt_purchase_order_supplier_received_action" model="ir.actions.act_window">
+        <field name="name">Delivery Order</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">smt.purchase.order.supplier.received</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create"> No Delivery Order Supplier available. </p>
+            <p> Create new one from scratch. </p>
+        </field>
+    </record>
+</odoo>

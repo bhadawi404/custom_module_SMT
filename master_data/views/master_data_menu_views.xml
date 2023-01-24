@@ -1,0 +1,9 @@
+<odoo>
+    <!-- Menu Master Data -->
+    <menuitem id="master_data.smt_menu_master_data_root" name="Master Data" web_icon="master_data,static/img/master-data.png"/>
+    <menuitem id="master_data.smt_menu_master_product" name="Product" parent="master_data.smt_menu_master_data_root" sequence="1" action="master_data.smt_master_data_product_views_action"/>
+    <menuitem id="master_data.smt_menu_master_customer" name="Customer" parent="master_data.smt_menu_master_data_root" sequence="2" action="master_data.smt_master_data_customer_views_action"/>
+    <menuitem id="master_data.smt_menu_master_material" name="Material" parent="master_data.smt_menu_master_data_root" sequence="3" action="master_data.smt_master_data_material_views_action"/>
+    <menuitem id="master_data.smt_menu_master_supplier" name="Supplier" parent="master_data.smt_menu_master_data_root" sequence="4" action="master_data.smt_master_data_supplier_views_action"/>
+    <!-- End Menu Master Data -->
+</odoo>

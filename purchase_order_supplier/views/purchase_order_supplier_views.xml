@@ -1,0 +1,100 @@
+<odoo>
+    <record id="smt_purchase_order_supplier_views_tree" model="ir.ui.view">
+        <field name="name">smt.purchase.order.supplier.views.tree</field>
+        <field name="model">smt.purchase.order.supplier</field>
+        <field name="priority" eval="1"/>
+        <field name="arch" type="xml">
+            <tree string="Purchase Order Supplier" sample="1" default_order='date_order desc'>
+                <field name="purchase_order_number" string="Po. Number" readonly="1" decoration-info="state in ('draft','confirm')"/>
+                <field name="date_order"/>
+                <field name="supplier_id" widget="avatar"/>
+                <field name="gross" sum="Total Price" string="Total Price" widget="monetary"/>
+                <field name="state" widget="badge" decoration-danger="state == 'draft'" decoration-info="state == 'confirm'" decoration-success="state == 'done'"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="smt_purchase_order_supplier_views_form" model="ir.ui.view">
+        <field name="name">smt.purchase.order.supplier.views.form</field>
+        <field name="model">smt.purchase.order.supplier</field>
+        <field name="priority" eval="1"/>
+        <field name="arch" type="xml">
+            <form string="Purchase Order" class="o_purchase_order">
+                <header>
+                    <button name="action_po_send" states="approved" string="Send by Email" type="object" class="oe_highlight" data-hotkey="g"/>
+                    <button name="print_purchase_order" string="Print Purchase Order" type="object" states="approved" class="oe_highlight" data-hotkey="k"/>
+                    <button name="button_confirm" type="object" states="draft" string="Confirm Order" class="oe_highlight" id="bid_confirm" data-hotkey="v"/>
+                    <button name="button_set_to_draft" type="object" states="confirm" string="Set To Draft" class="oe_highlight" id="bid_set_to_draft" data-hotkey="v"/>
+                    <button name="button_approved" type="object" states="confirm" string="Approved" class="oe_highlight" id="bid_approved" data-hotkey="v"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm,approved,done" attrs="{'invisible': [('state', '!=', 'done')]}" readonly="1"/>
+                </header>
+                <widget name="web_ribbon" title="Done" bg_color="bg-success" attrs="{'invisible': [('state', '!=', 'done')]}"/>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button type="object" name="action_view_picking" class="oe_stat_button" icon="fa-truck" attrs="{'invisible':[('count_delivery','=', 0)]}">
+                            <field name="count_delivery" widget="statinfo" string="Delivery Order" help="Incoming Shipments"/>
+                        </button>
+                    </div>
+
+                    <div class="oe_title">
+                        <span class="o_form_label" attrs="{'invisible': [('state','not in',('draft','done'))]}">Request for Quotation </span>
+                        <span class="o_form_label" attrs="{'invisible': [('state','in',('draft'))]}">Purchase Order </span>
+                        <h1>
+                            <field name="purchase_order_number" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="supplier_id" widget="res_partner_many2one" placeholder="Name, TIN, Email, or Reference" attrs="{'readonly': [('state','in',('approved','done'))]}"/>
+                            <field name="email_supplier" readonly="1"/>
+                            <field name="phone_supplier" readonly="1"/>
+                            <field name="address_supplier" readonly="1"/>
+                            <field name="attn_supplier" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="date_order" attrs="{'readonly': [('state','in',('approved','done'))]}" />
+                            <field name="ref_code" attrs="{'readonly': [('state','in',('approved','done'))]}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Products" name="products">
+                            <field name="view_purchase_line_ids" widget="section_and_note_one2many" mode="tree,kanban" attrs="{'readonly': [('state','in',('approved','done'))]}">
+                                <tree string="Purchase Order Lines" editable="bottom">
+                                    <field name="product_id" />
+                                    <field name="description" />
+                                    <field name="quantity" />
+                                    <field name="quantity_received" />
+                                    <field name="price"/>
+                                    <field name="total_price" readonly="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    <group>
+                        <group>
+                            <field name="notes" nolabel="1" placeholder="Define your terms and conditions ..."/>
+                        </group>
+                        <group >
+                            <field name="discount" />
+                            <field name="net" />
+                            <field name="tax" />
+                            <field name="pph23" />
+                            <field name="gross" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="smt_purchase_order_supplier_views_action" model="ir.actions.act_window">
+        <field name="name">Purchase Order Supplier</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">smt.purchase.order.supplier</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create"> No Purchase Order Supplier available. </p>
+            <p> Create new one from scratch. </p>
+        </field>
+    </record>
+</odoo>

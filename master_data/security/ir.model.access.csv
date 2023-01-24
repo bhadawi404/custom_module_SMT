@@ -1,0 +1,5 @@
+group_id:id,id,name,model_id:id,perm_read,perm_write,perm_create,perm_unlink
+base.group_user,access_model_smt_master_data_product,access_model_smt_master_data_product,model_smt_master_data_product,1,1,1,1
+base.group_user,access_model_smt_master_data_customer,access_model_smt_master_data_customer,model_smt_master_data_customer,1,1,1,1
+base.group_user,access_model_smt_master_data_material,access_model_smt_master_data_material,model_smt_master_data_material,1,1,1,1
+base.group_user,access_model_smt_master_data_supplier,access_model_smt_master_data_supplier,model_smt_master_data_supplier,1,1,1,1

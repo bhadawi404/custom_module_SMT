@@ -1,0 +1,9 @@
+<odoo>
+    <!-- Menu Purchase Order -->
+    <menuitem id="purchase_order_supplier.smt_menu_purchase_order_root" name="Purchase Order" web_icon="purchase_order_supplier,static/img/order.png"/>
+    <menuitem id="purchase_order_supplier.smt_menu_purchase_order_sub_root" parent="purchase_order_supplier.smt_menu_purchase_order_root" name="Purchase Order" sequence="1"/>
+    <menuitem id="purchase_order_supplier.smt_menu_purchase_order_supplier" name="Order" parent="purchase_order_supplier.smt_menu_purchase_order_sub_root" sequence="1" action="purchase_order_supplier.smt_purchase_order_supplier_views_action"/>
+    <menuitem id="purchase_order_supplier.smt_menu_purchase_order_supplier_received_product" name="Delivery Order" parent="purchase_order_supplier.smt_menu_purchase_order_sub_root" sequence="2" action="purchase_order_supplier.smt_purchase_order_supplier_received_action"/>
+
+    <!-- End Menu Purchase Order -->
+</odoo>

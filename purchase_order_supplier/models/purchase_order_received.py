@@ -32,10 +32,15 @@ class SMTPurchaseOrderSupplierReceived(models.Model):
     
     def button_received(self):
         now = datetime.now()
+        invoice = self.env['smt.purchase.order.invoice']
         for rec in self.view_received_purchase_order_ids:
             if rec.quantity_done:
                 self.env['smt.purchase.order.supplier.line'].browse(rec.purchase_order_line.id).write({'quantity_received': rec.quantity_done})
                 self.write({'received_date': now, 'state': 'done'})
+                invoice.create(
+                    {'purchase_order_id':self.purchase_order_id.id, 
+                     'state':'draft'
+                    })
             else:
                 raise UserError(_("Sorry, You can't Received Product(s), Click set quantity first to received the product"))
 SMTPurchaseOrderSupplierReceived()

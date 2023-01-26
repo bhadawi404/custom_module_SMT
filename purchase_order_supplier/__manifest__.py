@@ -12,6 +12,7 @@
         'master_data'
     ],
     'data': [
+        'views/purchase_order_supplier_invoice_views.xml',
         'views/purchase_order_received_views.xml',
         'security/ir.model.access.csv',
         'views/purchase_order_supplier_views.xml',

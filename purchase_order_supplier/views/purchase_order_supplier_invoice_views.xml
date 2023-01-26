@@ -1,0 +1,103 @@
+<odoo>
+    <record id="smt_purchase_order_supplier_invoice_views_tree" model="ir.ui.view">
+        <field name="name">smt.purchase.order.supplier.invoice.views.tree</field>
+        <field name="model">smt.purchase.order.invoice</field>
+        <field name="priority" eval="1"/>
+        <field name="arch" type="xml">
+            <tree string="Invoice Supplier" sample="1" default_order='due_date_invoice desc'>
+                <field name="name" string="No. Invoice" readonly="1" decoration-info="state in ('draft','confirm')"/>
+                <field name="purchase_order_id"/>
+                <field name="supplier_id" widget="avatar"/>
+                <field name="due_date_invoice"/>
+                <field name="date_terima_invoice" />
+                <field name="gross" sum="Total Price" string="Total Price" widget="monetary"/>
+                <field name="state" widget="badge" decoration-danger="state == 'draft'" decoration-info="state == 'approved'" decoration-success="state == 'done'"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="smt_purchase_order_supplier_invoice_views_form" model="ir.ui.view">
+        <field name="name">smt.purchase.order.supplier.invoice.views.form</field>
+        <field name="model">smt.purchase.order.invoice</field>
+        <field name="priority" eval="1"/>
+        <field name="arch" type="xml">
+            <form string="Invoice Supplier" class="o_invoice_purchase_order">
+                <header>
+                    <!-- <button name="action_po_send" states="approved" string="Send by Email" type="object" class="oe_highlight" data-hotkey="g"/>
+                    <button name="print_purchase_order" string="Print Purchase Order" type="object" states="approved" class="oe_highlight" data-hotkey="k"/>
+                    <button name="button_confirm" type="object" states="draft" string="Confirm Order" class="oe_highlight" id="bid_confirm" data-hotkey="v"/>
+                    <button name="button_set_to_draft" type="object" states="confirm" string="Set To Draft" class="oe_highlight" id="bid_set_to_draft" data-hotkey="v"/>
+                    <button name="button_approved" type="object" states="confirm" string="Approved" class="oe_highlight" id="bid_approved" data-hotkey="v"/> -->
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm,approved,done" attrs="{'invisible': [('state', '=', 'done')]}" readonly="1"/>
+                </header>
+                <widget name="web_ribbon" title="Done" bg_color="bg-success" attrs="{'invisible': [('state', '!=', 'done')]}"/>
+                <sheet>
+                    <!-- <div class="oe_button_box" name="button_box">
+                        <button type="object" name="action_view_picking" class="oe_stat_button" icon="fa-truck" attrs="{'invisible':[('count_delivery','=', 0)]}">
+                            <field name="count_delivery" widget="statinfo" string="Delivery Order" help="Incoming Shipments"/>
+                        </button>
+                    </div> -->
+
+                    <div class="oe_title">
+                        <span class="o_form_label">Invoice No.</span>
+                        <h1>
+                            <field name="name" required="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="faktur_no" required="1" />
+                            <field name="purchase_order_id" required="1"/>
+                            <field name="supplier_id" widget="res_partner_many2one" placeholder="Name, TIN, Email, or Reference" readonly="1"/>
+                            <field name="email_supplier" readonly="1"/>
+                            <field name="phone_supplier" readonly="1"/>
+                            <field name="address_supplier" readonly="1"/>
+                            <field name="attn_supplier" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="date_terima_invoice" widget="date"/>
+                            <field name="due_date_invoice"  required="1" widget="date"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Products" name="products">
+                            <field name="line_purchase_ids" widget="section_and_note_one2many" readonly="1" mode="tree,kanban">
+                                <tree string="Purchase Order Lines" editable="bottom">
+                                    <field name="product_id" readonly="1"/>
+                                    <field name="description" readonly="1"/>
+                                    <field name="quantity" readonly="1"/>
+                                    <field name="quantity_received" readonly="1"/>
+                                    <field name="price" readonly="1"/>
+                                    <field name="total_price" readonly="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    <group>
+                        <group>
+                            <field name="notes" nolabel="1" placeholder="Define your terms and conditions ..."/>
+                        </group>
+                        <group >
+                            <field name="discount" readonly="1"/>
+                            <field name="net" readonly="1"/>
+                            <field name="tax" readonly="1"/>
+                            <field name="pph23" readonly="1"/>
+                            <field name="gross" readonly="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="smt_purchase_order_supplier_invoice_views_action" model="ir.actions.act_window">
+        <field name="name">Invoice Supplier</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">smt.purchase.order.invoice</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create"> No Invoice Supplier available. </p>
+            <p> Create new one from scratch. </p>
+        </field>
+    </record>
+</odoo>

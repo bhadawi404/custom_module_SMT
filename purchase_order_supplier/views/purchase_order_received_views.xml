@@ -41,7 +41,7 @@
                             <field name="supplier_id" attrs="{'readonly': [('state','=','done')]}" />
                         </group>
                         <group>
-                            <field name="received_date" attrs="{'readonly': [('state','=','done')]}" />
+                            <field name="received_date" widget="date" attrs="{'readonly': [('state','=','done')]}" />
                             <field name="delivery_order" required="1" attrs="{'readonly': [('state','=','done')]}"/>
                         </group>
                     </group>

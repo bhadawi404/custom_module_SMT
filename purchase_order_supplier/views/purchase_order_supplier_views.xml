@@ -26,7 +26,7 @@
                     <button name="button_confirm" type="object" states="draft" string="Confirm Order" class="oe_highlight" id="bid_confirm" data-hotkey="v"/>
                     <button name="button_set_to_draft" type="object" states="confirm" string="Set To Draft" class="oe_highlight" id="bid_set_to_draft" data-hotkey="v"/>
                     <button name="button_approved" type="object" states="confirm" string="Approved" class="oe_highlight" id="bid_approved" data-hotkey="v"/>
-                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm,approved,done" attrs="{'invisible': [('state', '!=', 'done')]}" readonly="1"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm,approved,done" attrs="{'invisible': [('state', '=', 'done')]}" readonly="1"/>
                 </header>
                 <widget name="web_ribbon" title="Done" bg_color="bg-success" attrs="{'invisible': [('state', '!=', 'done')]}"/>
                 <sheet>
@@ -52,7 +52,7 @@
                             <field name="attn_supplier" readonly="1"/>
                         </group>
                         <group>
-                            <field name="date_order" attrs="{'readonly': [('state','in',('approved','done'))]}" />
+                            <field name="date_order" widget="date" attrs="{'readonly': [('state','in',('approved','done'))]}" />
                             <field name="ref_code" attrs="{'readonly': [('state','in',('approved','done'))]}"/>
                         </group>
                     </group>

@@ -30,6 +30,7 @@ class SMTPurchaseOrderSupplier(models.Model):
     gross = fields.Float('Gross', readonly=True, compute='_compute_gross')
     notes = fields.Text('Notes')
     count_delivery = fields.Integer('count_delivery', compute='_count_picking')
+    count_invoice = fields.Integer('count_invoice', compute='_count_invoice')
     
     def _count_picking(self):
         for rec in self:
@@ -43,6 +44,26 @@ class SMTPurchaseOrderSupplier(models.Model):
             'view_mode': 'tree,form',
             'view_id': False,
             'views': [(self.env.ref('purchase_order_supplier.smt_purchase_order_supplier_received_tree').id, 'tree'), (self.env.ref('purchase_order_supplier.smt_purchase_order_supplier_received_form').id, 'form')],
+            'domain': [('purchase_order_id','=',self.id)],
+            'target': 'current',
+        }
+        return action
+    
+    def _count_invoice(self):
+        for invoice in self:
+            inv = self.env['smt.purchase.order.invoice'].search([('purchase_order_id','=', invoice.id)])
+            if inv:
+                invoice.count_invoice = inv.gross
+            else:
+                invoice.count_invoice = 0
+    def action_view_invoice(self):
+        action = {
+            'type': 'ir.actions.act_window',
+            'name': 'Invoice',
+            'res_model': 'smt.purchase.order.invoice',
+            'view_mode': 'tree,form',
+            'view_id': False,
+            'views': [(self.env.ref('purchase_order_supplier.smt_purchase_order_supplier_invoice_views_tree').id, 'tree'), (self.env.ref('purchase_order_supplier.smt_purchase_order_supplier_invoice_views_form').id, 'form')],
             'domain': [('purchase_order_id','=',self.id)],
             'target': 'current',
         }

@@ -5,16 +5,11 @@ from dateutil.relativedelta import relativedelta
 class SMTPurchaseOrderInvoice(models.Model):
     _name = 'smt.purchase.order.invoice'
     _description = 'Invoice Sukses Mandiri Teknindo'
-    _rec_name = 'name'
+    _rec_name = 'purchase_order_id'
     
-    state = fields.Selection([
-        ('draft', 'Draft'),
-        ('confirm', 'Confirm'),
-        ('approved', 'Approved'),
-        ('done', 'Done'),
-    ], default='draft', string="State")
+    
      
-    name = fields.Char('No. Invoice')
+    name = fields.Char('No. Invoice',default='Draft')
     faktur_no = fields.Char('No Faktur')
     purchase_order_id = fields.Many2one('smt.purchase.order.supplier', string='No. Purchase Order')
     supplier_id = fields.Many2one('smt.master.data.supplier', string='Supplier Name', related='purchase_order_id.supplier_id')
@@ -26,10 +21,9 @@ class SMTPurchaseOrderInvoice(models.Model):
     due_date_invoice = fields.Date('Tanggal Jatuh Tempo', compute='_get_due_date')
     date_terima_invoice = fields.Date('Tanggal Terima Invoice')
     state = fields.Selection([
-        ('draft', 'Draft'),
-        ('confirm', 'Confirm'),
-        ('approved', 'Approved'),
-        ('done', 'Done'),
+        ('draft', 'Waiting Approved'),
+        ('approved', 'Waiting Payment'),
+        ('done', 'Lunas'),
     ], default='draft', string="State")
     line_purchase_ids = fields.One2many('smt.purchase.order.supplier.line','purchase_order_id', string='Product', compute='_get_line_purchase')
     discount = fields.Float('Discount')
@@ -57,4 +51,12 @@ class SMTPurchaseOrderInvoice(models.Model):
         for rec in self:
             if rec.date_terima_invoice:
                 rec.due_date_invoice = rec.date_terima_invoice + relativedelta(days=30)
+                
+    def button_approved(self):
+        payment = self.env['smt.payment']
+        self.write({'state':'approved'})
+        payment.create({
+            'invoice_supplier_id': self.id,
+            'payment_type': 'send'
+        })
 SMTPurchaseOrderInvoice() 

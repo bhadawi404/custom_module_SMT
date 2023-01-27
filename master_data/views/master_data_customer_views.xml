@@ -4,7 +4,7 @@
         <field name="name">smt.master.data.customer.views.tree</field>
         <field name="model">smt.master.data.customer</field>
         <field name="arch" type="xml">
-            <tree string="Master customer">
+            <tree string="Master customer" import="1">
                 <field name="customer_code"/>
                 <field name="customer_name" />
                 <field name="customer_phone" />

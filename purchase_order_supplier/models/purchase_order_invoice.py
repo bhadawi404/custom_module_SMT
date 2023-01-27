@@ -9,7 +9,7 @@ class SMTPurchaseOrderInvoice(models.Model):
     
     
      
-    name = fields.Char('No. Invoice',default='Draft')
+    name = fields.Char('No. Invoice')
     faktur_no = fields.Char('No Faktur')
     purchase_order_id = fields.Many2one('smt.purchase.order.supplier', string='No. Purchase Order')
     supplier_id = fields.Many2one('smt.master.data.supplier', string='Supplier Name', related='purchase_order_id.supplier_id')
@@ -34,7 +34,11 @@ class SMTPurchaseOrderInvoice(models.Model):
     notes = fields.Text('Notes',related='purchase_order_id.notes')
     
     
-    
+    @api.ondelete(at_uninstall=False)
+    def _unlink_except_done_or_cancel(self):
+        for rec in self:
+            if rec.state!='draft':
+                raise UserError(_("Sorry, You can't delete Invoice(s) that has already been processed"))
     
     @api.onchange('purchase_order_id')
     def _get_line_purchase(self):
@@ -59,4 +63,6 @@ class SMTPurchaseOrderInvoice(models.Model):
             'invoice_supplier_id': self.id,
             'payment_type': 'send'
         })
+        
+    
 SMTPurchaseOrderInvoice() 

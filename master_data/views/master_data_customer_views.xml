@@ -26,7 +26,7 @@
                         <h1>
                             <div class="d-flex">
                                 <field name="priority" widget="priority" class="mr-3"/>
-                                <field class="text-break" name="customer_name" placeholder="e.g. PT. Sukses Mandiri Teknindo"/>
+                                <field class="text-break" name="customer_name" placeholder="e.g. PT. Sukses Mandiri Teknindo" required="1"/>
                             </div>
                         </h1>
                     </div>
@@ -42,7 +42,7 @@
                                     <field name="customer_code" />
                                     <field name="customer_email" />
                                     <field name="customer_phone" />
-                                    <field name="customer_address" />
+                                    <field name="customer_address" required="1"/>
                                 </group>
                                 <group name="group_price">
                                     <field name="customer_attn" />

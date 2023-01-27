@@ -8,10 +8,9 @@
                 <field name="payment_number" decoration-info="state in ('draft')"/>
                 <field name="invoice_supplier_id"/>
                 <field name="supplier_id" widget="avatar"/>
-                <field name="payment_type"/>
                 <field name="date" />
                 <field name="total_invoice" sum="Total Price" string="Total Price" widget="monetary"/>
-                <field name="amount" sum="Amount" string="Total Price" widget="monetary"/>
+                <field name="amount" sum="Amount" string="Amount" widget="monetary"/>
                 <field name="state" widget="badge" decoration-danger="state == 'draft'" decoration-info="state == 'approved'" decoration-success="state == 'done'"/>
             </tree>
         </field>
@@ -37,14 +36,14 @@
                     </div>
                     <group>
                         <group>
-                            <field name="payment_type" widget="radio"  options="{'horizontal': True}" />
-                            <field name="invoice_supplier_id" required="1"/>
+                            <field name="payment_type" widget="radio"  attrs="{'readonly': [('state', '=', 'posted')]}" options="{'horizontal': True}" />
+                            <field name="invoice_supplier_id" required="1"  attrs="{'readonly': [('state', '=', 'posted')]}"/>
                             <field name="supplier_id" widget="res_partner_many2one" readonly="1"/>
                         </group>
                         <group>
-                            <field name="date" widget="date"/>
+                            <field name="date" widget="date" attrs="{'required': [('state', '=', 'draft')],'readonly':[('state','=','posted')]}"/>
                             <field name="total_invoice" widget="monetary"/>
-                            <field name="amount"/>
+                            <field name="amount"  attrs="{'required': [('state', '=', 'draft')],'readonly': [('state', '=', 'posted')]}"/>
                         </group>
                     </group>
                 </sheet>

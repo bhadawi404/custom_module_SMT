@@ -25,7 +25,7 @@
                         <h1>
                             <div class="d-flex">
                                 <field name="priority" widget="priority" class="mr-3"/>
-                                <field class="text-break" name="name" placeholder="e.g. Cheese Burger"/>
+                                <field class="text-break" name="name" placeholder="e.g. Cheese Burger" required="1"/>
                             </div>
                         </h1>
                     </div>
@@ -48,13 +48,13 @@
                         <page string="General Information" name="general_information">
                             <group>
                                 <group name="group_general">
-                                    <field name="item_code" />
+                                    <field name="item_code" required="1"/>
                                     <field name="item_description" />
                                     <field name="customer_id" attrs="{'invisible': [('sale_ok', '=', False)]}"/>
                                     <field name="supplier_id" attrs="{'invisible': [('purchase_ok', '=', False)]}"/>
                                 </group>
                                 <group name="group_price">
-                                    <field name="item_price" />
+                                    <field name="item_price" required="1"/>
                                 </group>
                             </group>
                         </page>

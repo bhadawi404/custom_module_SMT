@@ -37,13 +37,13 @@
                     <div class="oe_title">
                         <span class="o_form_label">Invoice No.</span>
                         <h1>
-                            <field name="name" required="1"/>
+                            <field name="name" required="1" attrs="{'readonly': [('state','=','approved')]}"/>
                         </h1>
                     </div>
                     <group>
                         <group>
-                            <field name="faktur_no" required="1" />
-                            <field name="purchase_order_id" required="1"/>
+                            <field name="faktur_no" required="1" attrs="{'readonly':[('state','=', 'approved')]}" />
+                            <field name="purchase_order_id" required="1" attrs="{'readonly':[('state','=', 'approved')]}"/>
                             <field name="supplier_id" widget="res_partner_many2one" placeholder="Name, TIN, Email, or Reference" readonly="1"/>
                             <field name="email_supplier" readonly="1"/>
                             <field name="phone_supplier" readonly="1"/>
@@ -51,7 +51,7 @@
                             <field name="attn_supplier" readonly="1"/>
                         </group>
                         <group>
-                            <field name="date_terima_invoice" widget="date"/>
+                            <field name="date_terima_invoice" widget="date" attrs="{'readonly':[('state','=', 'approved')], 'required': [('state','=','draft')]}"/>
                             <field name="due_date_invoice"  required="1" widget="date"/>
                         </group>
                     </group>

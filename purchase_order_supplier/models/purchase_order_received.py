@@ -19,6 +19,11 @@ class SMTPurchaseOrderSupplierReceived(models.Model):
         ('done', 'Done'),
     ], default='waiting', string="State")
     
+    @api.ondelete(at_uninstall=False)
+    def _unlink_except_done_or_cancel(self):
+        for rec in self:
+            if rec.state!='waiting':
+                raise UserError(_("Sorry, You can't delete Received Product(s) that has already been processed"))
     @api.model
     def create(self, vals):
         if vals.get('name', '/') == '/':

@@ -12,7 +12,9 @@
         'purchase_order_supplier'
     ],
     'data': [
-        
+        'views/payment_views.xml',
+        'security/ir.model.access.csv',
+        'views/payment_menu_views.xml',
 
     ],
 

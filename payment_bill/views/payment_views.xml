@@ -1,0 +1,65 @@
+<odoo>
+    <record id="smt_payment_views_tree" model="ir.ui.view">
+        <field name="name">smt.payment.views.tree</field>
+        <field name="model">smt.payment</field>
+        <field name="priority" eval="1"/>
+        <field name="arch" type="xml">
+            <tree string="Payment Invoice Supplier" sample="1" default_order='due_date_invoice desc'>
+                <field name="payment_number" decoration-info="state in ('draft')"/>
+                <field name="invoice_supplier_id"/>
+                <field name="supplier_id" widget="avatar"/>
+                <field name="payment_type"/>
+                <field name="date" />
+                <field name="total_invoice" sum="Total Price" string="Total Price" widget="monetary"/>
+                <field name="amount" sum="Amount" string="Total Price" widget="monetary"/>
+                <field name="state" widget="badge" decoration-danger="state == 'draft'" decoration-info="state == 'approved'" decoration-success="state == 'done'"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="smt_payment_views_form" model="ir.ui.view">
+        <field name="name">smt.payment.views.form</field>
+        <field name="model">smt.payment</field>
+        <field name="priority" eval="1"/>
+        <field name="arch" type="xml">
+            <form string="Payment Invoice Supplier" class="o_payment">
+                <header>
+                    <button name="button_approved" type="object" states="draft" string="Approved" class="oe_highlight" id="bid_approved" data-hotkey="v"/> -->
+                    <field name="state" widget="statusbar" statusbar_visible="draft,posted,done" attrs="{'invisible': [('state', '=', 'done')]}" readonly="1"/>
+                </header>
+                <widget name="web_ribbon" title="Done" bg_color="bg-success" attrs="{'invisible': [('state', '!=', 'done')]}"/>
+                <sheet>
+                    <div class="oe_title">
+                        <span class="o_form_label">No. Payment</span>
+                        <h1>
+                            <field name="payment_number" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="payment_type" widget="radio"  options="{'horizontal': True}" />
+                            <field name="invoice_supplier_id" required="1"/>
+                            <field name="supplier_id" widget="res_partner_many2one" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="date" widget="date"/>
+                            <field name="total_invoice" widget="monetary"/>
+                            <field name="amount"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="smt_payment_views_action" model="ir.actions.act_window">
+        <field name="name">Payment Invoice Supplier</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">smt.payment</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create"> No Payment Invoice Supplier available. </p>
+            <p> Create new one from scratch. </p>
+        </field>
+    </record>
+</odoo>

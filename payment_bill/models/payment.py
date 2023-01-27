@@ -24,3 +24,8 @@ class SMTPayment(models.Model):
     ], string='state', default='draft')
     
     
+    def button_approved(self):
+        pass
+
+SMTPayment()
+    

@@ -1,0 +1,9 @@
+<odoo>
+    <!-- Menu CRM -->
+    <menuitem id="smt_menu_crm_root" name="CRM" web_icon="crm_smt,static/img/crm.png"/>
+    <menuitem id="smt_menu_contact" name="Contact" parent="smt_menu_crm_root" sequence="1" action="smt_crm_lead_contact_views_contact_action"/>
+    
+    <menuitem id="smt_menu_lead" name="Lead" parent="smt_menu_crm_root" sequence="2"/>
+    
+    <!-- End Menu CRM -->
+</odoo>

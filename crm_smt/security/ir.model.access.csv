@@ -1,0 +1,2 @@
+group_id:id,id,name,model_id:id,perm_read,perm_write,perm_create,perm_unlink
+base.group_user,access_model_smt_crm_lead_contact,access_model_smt_crm_lead_contact,model_smt_crm_lead_contact,1,1,1,1

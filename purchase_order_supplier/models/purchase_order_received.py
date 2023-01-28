@@ -13,7 +13,7 @@ class SMTPurchaseOrderSupplierReceived(models.Model):
     supplier_id = fields.Many2one('smt.master.data.supplier', related='purchase_order_id.supplier_id',string='Supplier Name')
     received_date = fields.Date('Received Date', readonly=True)
     delivery_order = fields.Char('Delivery Order')
-    view_received_purchase_order_ids = fields.One2many('smt.purchase.order.supplier.received.line', 'received_po_id', string='Product')
+    view_received_purchase_order_ids = fields.One2many('smt.purchase.order.supplier.received.line', 'received_po_id', string='Product',ondelete='cascade')
     state = fields.Selection([
         ('waiting', 'Waiting Product'),
         ('done', 'Done'),
@@ -53,7 +53,7 @@ SMTPurchaseOrderSupplierReceived()
 
 class SMTPurchaseOrderSupplierReceivedLine(models.Model):
     _name = 'smt.purchase.order.supplier.received.line'
-    _description = 'Purchase Order Supplier Received Sukses Mandiri Teknindo'
+    _description = 'Purchase Order Supplier Received Line Sukses Mandiri Teknindo'
     
     received_po_id = fields.Many2one('smt.purchase.order.supplier.received', ondelete='cascade',string='Received Number')
     purchase_order_line = fields.Many2one('smt.purchase.order.supplier.line', string='Line ID')

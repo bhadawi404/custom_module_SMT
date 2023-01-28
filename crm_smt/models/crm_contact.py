@@ -15,3 +15,10 @@ class SMTCRMContact(models.Model):
     is_customer = fields.Boolean('is_customer')
     
 SMTCRMContact()
+
+class SMTCRMCalender(models.Model):
+    _inherit = 'calendar.event'
+    
+    contact_id = fields.Many2one('smt.crm.lead.contact', string='contact')
+    
+SMTCRMCalender()

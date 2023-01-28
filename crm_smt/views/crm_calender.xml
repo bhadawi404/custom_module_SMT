@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="smt_crm_lead_contact_calender_views_form" model="ir.ui.view">
+        <field name="name">smt.crm.lead.contact.calender.views.form</field>
+        <field name="model">calendar.event</field>
+        <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_ids']" position="replace">
+                <field name="contact_id"></field>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

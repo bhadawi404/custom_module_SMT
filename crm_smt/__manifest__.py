@@ -9,9 +9,11 @@
     'description': "",
     'website': 'https://smtek-tool.com/',
     'depends': [
-        
+        'calendar'
     ],
     'data': [
+        'views/crm_calender.xml',
+        'views/crm_lead_views.xml',
         'views/crm_contact_views.xml',
         'security/ir.model.access.csv',
         'views/crm_menu_views.xml',

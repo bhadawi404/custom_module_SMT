@@ -37,14 +37,12 @@
                     </style>
                     <notebook>
                         <page string="General Contact" name="general_information">
-                            <group>
                                 <group name="group_general_contact">
                                     <field name="email" />
                                     <field name="phone" />
                                     <field name="address" />
                                     <field name="attn" required="1"/>
                                 </group>
-                            </group>
                         </page>
                     </notebook>
                 </sheet>

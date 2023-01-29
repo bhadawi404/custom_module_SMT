@@ -135,23 +135,49 @@ class SMTCRMLeadInquiryLine(models.Model):
     
 SMTCRMLeadInquiry()
 
-class SMTCRMLeadInquiryLineMaterial(models.Model):
+class SMTCRMLeadInquiryMaterial(models.Model):
     _name = 'smt.crm.lead.inquiry.material'
     _description = 'CRM Inquiry Material Sukses Mandiri Teknindo'
     
     name = fields.Char('Request Material Inquiry', default="/")
     inquiry_id = fields.Many2one('smt.crm.lead.inquiry', string='Inquiry ID')
-    view_inquiry_material_ids = fields.One2many('smt.crm.lead.inquiry.material.line', 'inquiry_material_id', string='view_inquiry_material')
+    view_inquiry_material_ids = fields.One2many('smt.crm.lead.inquiry.material.line', 'inquiry_material_id', string='view_inquiry_material', ondelete='cascade')
     view_line_inquiry_ids = fields.One2many('smt.crm.lead.inquiry.line', 'inquiry_id', related='inquiry_id.view_line_inquiry_ids', string='Item Spesification',ondelete='cascade')
+    state = fields.Selection([
+        ('draft', 'Draft'),
+        ('confirm', 'Confirm'),
+        ('approved', 'Approved'),
+        ('declined', 'Declined'),
+    ], string='state', default='draft')
     
+    @api.ondelete(at_uninstall=False)
+    def _unlink_except_done_or_cancel(self):
+        for rec in self:
+            if rec.state!='draft':
+                raise UserError(_("Sorry, You can't delete Inquiry(s) that has already been processed"))
+            
     @api.model
     def create(self, vals):
         if vals.get('name', '/') == '/':
             vals['name'] = self.env['ir.sequence'].next_by_code('smt.crm.lead.inquiry.material') or '/'
-        res = super(SMTCRMLeadInquiryLineMaterial, self).create(vals)
+        res = super(SMTCRMLeadInquiryMaterial, self).create(vals)
         return res
     
-SMTCRMLeadInquiryLineMaterial()
+    def button_confirm(self):
+        self.write({'state': 'confirm'})
+        self.env['smt.crm.lead.inquiry'].browse(self.inquiry_id.id).write({'state': 'checking_ts'})
+    
+    def button_set_to_draft(self):
+        self.write({'state': 'draft'})
+    
+    def button_approved(self):
+        self.write({'state': 'approved'})
+        self.env['smt.crm.lead.inquiry'].browse(self.inquiry_id.id).write({'state': 'approved_ts'})
+    
+    def button_declined(self):
+         self.write({'state': 'declined'})
+    
+SMTCRMLeadInquiryMaterial()
 
 class SMTCRMLeadInquiryMaterialLine(models.Model):
     _name = 'smt.crm.lead.inquiry.material.line'

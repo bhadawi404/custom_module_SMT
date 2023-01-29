@@ -4,7 +4,7 @@
         <field name="model">smt.purchase.order.supplier.received</field>
         <field name="priority" eval="1"/>
         <field name="arch" type="xml">
-            <tree string="Delivery Order" sample="1" default_order='received_date desc'>
+            <tree string="Received Product PO" sample="1" default_order='received_date desc'>
                 <field name="name" string="No. Received" readonly="1" decoration-info="state in ('draft','confirm')"/>
                 <field name="purchase_order_id"/>
                 <field name="received_date"/>
@@ -20,7 +20,7 @@
         <field name="model">smt.purchase.order.supplier.received</field>
         <field name="priority" eval="1"/>
         <field name="arch" type="xml">
-            <form string="Delivery Order" class="o_delivery_order">
+            <form string="Received Product PO" class="o_delivery_order">
                 <header>
                     <button name="set_quantity" states="waiting" string="Set Quantity Product" type="object" class="oe_highlight" data-hotkey="g"/>
                     <button name="button_received" string="Received Product" type="object" states="waiting" class="oe_highlight" data-hotkey="k"/>
@@ -63,7 +63,7 @@
     </record>
 
     <record id="smt_purchase_order_supplier_received_action" model="ir.actions.act_window">
-        <field name="name">Delivery Order</field>
+        <field name="name">Received Product PO</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">smt.purchase.order.supplier.received</field>
         <field name="view_mode">tree,form</field>

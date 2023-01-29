@@ -12,6 +12,7 @@
         'calendar'
     ],
     'data': [
+        'views/crm_lead_material_views.xml',
         'views/crm_calender.xml',
         'views/crm_lead_views.xml',
         'views/crm_contact_views.xml',

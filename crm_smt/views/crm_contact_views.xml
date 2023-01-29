@@ -21,6 +21,9 @@
         <field name="model">smt.crm.lead.contact</field>
         <field name="arch" type="xml">
             <form string="Contact" duplicate="0">
+                <header>
+                    <button name="created_customer"  type="object" string="Create Customer" class="oe_highlight" data-hotkey="v" attrs="{'invisible': [('is_customer','!=',False)]}"/>
+                </header>
                 <sheet name="contact_form">
                     <div class="oe_title">
                         <label for="name" string="Contact Name"/>
@@ -42,6 +45,7 @@
                                     <field name="phone" />
                                     <field name="address" />
                                     <field name="attn" required="1"/>
+                                    <field name="is_customer" invisible="1"/>
                                 </group>
                         </page>
                     </notebook>

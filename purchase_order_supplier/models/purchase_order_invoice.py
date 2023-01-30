@@ -20,6 +20,12 @@ class SMTPurchaseOrderInvoice(models.Model):
     ref_code = fields.Char('Code', related='purchase_order_id.ref_code')
     due_date_invoice = fields.Date('Tanggal Jatuh Tempo', compute='_get_due_date')
     date_terima_invoice = fields.Date('Tanggal Terima Invoice')
+    payment_term = fields.Selection([
+        ('cash_on_delivery', 'Cash On Delivery'),
+        ('15', '15 Hari'),
+        ('30', '30 Hari'),
+        ('45', '45 Hari'),
+    ], string='Payment Term')
     state = fields.Selection([
         ('draft', 'Waiting Approved'),
         ('approved', 'Waiting Payment'),
@@ -49,13 +55,17 @@ class SMTPurchaseOrderInvoice(models.Model):
             
         self.line_purchase_ids = line
     
-    @api.onchange('date_terima_invoice') 
+    @api.onchange('payment_term','date_terima_invoice') 
     def _get_due_date(self):
         self.due_date_invoice = False
         for rec in self:
-            if rec.date_terima_invoice:
+            if rec.payment_term == '15' and rec.date_terima_invoice:
+                rec.due_date_invoice = rec.date_terima_invoice + relativedelta(days=15)
+            if rec.payment_term == '30' and rec.date_terima_invoice:
                 rec.due_date_invoice = rec.date_terima_invoice + relativedelta(days=30)
-                
+            if rec.payment_term == '45' and rec.date_terima_invoice:
+                rec.due_date_invoice = rec.date_terima_invoice + relativedelta(days=45)
+            
     def button_approved(self):
         payment = self.env['smt.payment']
         self.write({'state':'approved'})

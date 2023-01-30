@@ -4,7 +4,7 @@
         <field name="model">smt.purchase.order.supplier.received</field>
         <field name="priority" eval="1"/>
         <field name="arch" type="xml">
-            <tree string="Received Product PO" sample="1" default_order='received_date desc'>
+            <tree string="Received Product PO" sample="1" default_order='received_date desc' create='false'>
                 <field name="name" string="No. Received" readonly="1" decoration-info="state in ('draft','confirm')"/>
                 <field name="purchase_order_id"/>
                 <field name="received_date"/>

@@ -25,7 +25,7 @@
                     <!-- <button name="print_inquiry" string="Print Inquiry" type="object" states="confirm" class="oe_highlight" data-hotkey="k"/> -->
                     <button name="button_confirm" type="object" states="draft" string="Confirm Inquiry" class="oe_highlight" id="bid_confirm" data-hotkey="v"/>
                     <button name="button_set_to_draft" type="object" states="confirm" string="Set To Draft" class="oe_highlight" id="bid_set_to_draft" data-hotkey="v"/>
-                    <!-- <button name="button_approved" type="object" states="confirm" string="Approved" class="oe_highlight" id="bid_approved" data-hotkey="v"/> -->
+                    <button name="button_confirm_spv_sales" type="object" states="approved_ts" string="Approved" class="oe_highlight" id="bid_approved" data-hotkey="v"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,confirm,checking_ts,approved_ts,approved_spv,approved_spv_produksi,waiting_quote" readonly="1"/>
                 </header>
                 <!-- <widget name="web_ribbon" title="Done" bg_color="bg-success" attrs="{'invisible': [('state', '!=', 'done')]}"/> -->

@@ -103,7 +103,9 @@ class SMTCRMLeadInquiry(models.Model):
     
     def button_set_to_draft(self):
         self.write({'state': 'draft'})
-        
+    
+    def button_confirm_spv_sales(self):
+        self.write({'state': 'approved_spv'})
 SMTCRMLeadInquiry()
 
 class SMTCRMLeadInquiryLine(models.Model):

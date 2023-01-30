@@ -8,7 +8,7 @@
                 <field name="name" string="No. Invoice" readonly="1" decoration-info="state in ('draft','confirm')"/>
                 <field name="purchase_order_id"/>
                 <field name="supplier_id" widget="avatar"/>
-                <field name="due_date_invoice"/>
+                <field name="due_date_invoice" widget="remaining_days"/>
                 <field name="date_terima_invoice" />
                 <field name="gross" sum="Total Price" string="Total Price" widget="monetary"/>
                 <field name="state" widget="badge" decoration-danger="state == 'draft'" decoration-info="state == 'approved'" decoration-success="state == 'done'"/>
@@ -53,7 +53,7 @@
                         <group>
                             <field name="payment_term" required="1" />
                             <field name="date_terima_invoice" widget="date" attrs="{'readonly':[('state','=', 'approved')], 'required': [('state','=','draft')]}"/>
-                            <field name="due_date_invoice" widget="remaining_days" required="1"/>
+                            <field name="due_date_invoice"  required="1"/>
                         </group>
                     </group>
                     <notebook>

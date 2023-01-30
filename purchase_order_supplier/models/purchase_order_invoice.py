@@ -65,6 +65,8 @@ class SMTPurchaseOrderInvoice(models.Model):
                 rec.due_date_invoice = rec.date_terima_invoice + relativedelta(days=30)
             if rec.payment_term == '45' and rec.date_terima_invoice:
                 rec.due_date_invoice = rec.date_terima_invoice + relativedelta(days=45)
+            if rec.payment_term == 'cash_on_delivery' and rec.date_terima_invoice:
+                rec.due_date_invoice = rec.date_terima_invoice
             
     def button_approved(self):
         payment = self.env['smt.payment']

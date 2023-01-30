@@ -22,8 +22,9 @@ class SMTCRMLeadInquiry(models.Model):
         ('checking_ts', 'Checking Technical Support'),
         ('approved_ts', 'Approved Technical Support'),
         ('approved_spv', 'Approved Spv Sales'),
+        ('checking_spv_produksi', 'Request Pricing'),
         ('approved_spv_produksi', 'Approved Spv Produksi'),
-        ('waiting_quote', 'Waiting Quote'),
+        ('quotation', 'Waiting Quote'),
     ], string='state', default='draft')
     show_material_required = fields.Boolean('show_materal_required', compute='_show_material')
     show_pricing_required = fields.Boolean('show_pricing_required', compute='_show_pricing')

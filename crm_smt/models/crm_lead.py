@@ -31,6 +31,7 @@ class SMTCRMLeadInquiry(models.Model):
     count_material = fields.Integer('count_material', compute='_count_material')
     count_pricing = fields.Integer('count_pricing', compute='_count_pricing')
     
+    
     def _count_material(self):
         for rec in self:
             rec.count_material = self.env['smt.crm.lead.inquiry.material'].search_count([('inquiry_id','=', rec.id)])
@@ -183,6 +184,7 @@ class SMTCRMLeadInquiryMaterial(models.Model):
         ('approved', 'Approved'),
         ('declined', 'Declined'),
     ], string='state', default='draft')
+    sket_drawing_ids = fields.Many2many('ir.attachment', string='Sket Drawing')
     
     @api.ondelete(at_uninstall=False)
     def _unlink_except_done_or_cancel(self):

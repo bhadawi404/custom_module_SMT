@@ -9,7 +9,7 @@
     'description': "",
     'website': 'https://smtek-tool.com/',
     'depends': [
-        'base'
+        'core_smt'
     ],
     'data': [
         'views/master_data_supplier_views.xml',

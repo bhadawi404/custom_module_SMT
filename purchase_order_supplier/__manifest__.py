@@ -9,7 +9,7 @@
     'description': "",
     'website': 'https://smtek-tool.com/',
     'depends': [
-        'master_data'
+        'core_smt'
     ],
     'data': [
         'views/purchase_order_supplier_invoice_views.xml',

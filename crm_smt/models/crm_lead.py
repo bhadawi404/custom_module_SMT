@@ -277,7 +277,19 @@ class SMTCRMLeadInquiryPricing(models.Model):
         ('declined', 'Declined'),
     ], string='state', default='draft')
     
-
+    @api.ondelete(at_uninstall=False)
+    def _unlink_except_done_or_cancel(self):
+        for rec in self:
+            if rec.state!='draft':
+                raise UserError(_("Sorry, You can't delete Pricing(s) that has already been processed"))
+            
+    @api.model
+    def create(self, vals):
+        if vals.get('name', '/') == '/':
+            vals['name'] = self.env['ir.sequence'].next_by_code('smt.crm.lead.inquiry.pricing') or '/'
+        res = super(SMTCRMLeadInquiryMaterial, self).create(vals)
+        return res
+    
     def button_confirm(self):
         self.write({'state': 'confirm'})
         self.env['smt.crm.lead.inquiry'].browse(self.inquiry_id.id).write({'state': 'checking_spv_produksi'})
@@ -305,7 +317,13 @@ class SMTCRMLeadInquiryPricingLine(models.Model):
     product_name = fields.Char('Item name', related='line_inquiry_item_id.product_name', store=True)
     quantity = fields.Float('Quantity', related='line_inquiry_item_id.quantity', store=True)
     unit_price = fields.Float('Unit Price')
-    total_price = fields.Float('Total Price')
+    total_price = fields.Float('Total Price',compute='_compute_total_price')
+    
+    @api.depends('quantity','unit_price')
+    def _compute_total_price(self):
+        for rec in self:
+            rec.total_price = rec.quantity * rec.unit_price
+    
     
 SMTCRMLeadInquiryPricing()
 

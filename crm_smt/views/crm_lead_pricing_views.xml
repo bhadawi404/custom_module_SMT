@@ -19,10 +19,10 @@
         <field name="arch" type="xml">
             <form string="Pricing" class="o_inquiry">
                 <header>
-                    <button name="button_confirm" type="object" states="draft" string="Confirm" class="oe_highlight" id="bid_confirm" data-hotkey="v"/> 
-                    <button name="button_set_to_draft" type="object" states="confirm" string="Set To Draft" class="oe_highlight" id="bid_set_to_draft" data-hotkey="v"/>
-                    <button name="button_approved" type="object" states="confirm" string="Approved" class="oe_highlight" id="bid_approved" data-hotkey="v"/>
-                    <button name="button_declined" type="object" states="confirm" string="Declined" class="oe_highlight" id="bid_declined" data-hotkey="v"/>  
+                    <button name="button_confirm" type="object" states="draft" string="Confirm" class="oe_highlight" id="bid_confirm" data-hotkey="v" groups="core_smt.groups_smt_spv_produksi"/> 
+                    <button name="button_set_to_draft" type="object" states="confirm" string="Set To Draft" class="oe_highlight" id="bid_set_to_draft" data-hotkey="v" groups="core_smt.groups_smt_spv_produksi"/>
+                    <button name="button_approved" type="object" states="confirm" string="Approved" class="oe_highlight" id="bid_approved" data-hotkey="v" groups="core_smt.groups_smt_spv_produksi"/>
+                    <button name="button_declined" type="object" states="confirm" string="Declined" class="oe_highlight" id="bid_declined" data-hotkey="v" groups="core_smt.groups_smt_spv_produksi"/>  
                     <field name="state" widget="statusbar" statusbar_visible="draft,confirm,approved" readonly="1"/>
                 </header>
                 <!-- <widget name="web_ribbon" title="Done" bg_color="bg-success" attrs="{'invisible': [('state', '!=', 'done')]}"/> -->
@@ -54,7 +54,7 @@
                                 <tree string="Pricing Required" editable="bottom" create="false" edit="true" delete="false">
                                     <field name="product_name" readonly="1"/>
                                     <field name="quantity" />
-                                    <field name="unit_price" />
+                                    <field name="unit_price" required="1"/>
                                     <field name="total_price" readonly="1" />
                                 </tree>
                             </field>

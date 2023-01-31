@@ -19,10 +19,10 @@
         <field name="arch" type="xml">
             <form string="Material" class="o_inquiry">
                 <header>
-                    <button name="button_confirm" type="object" states="draft" string="Confirm" class="oe_highlight" id="bid_confirm" data-hotkey="v"/> 
-                    <button name="button_set_to_draft" type="object" states="confirm" string="Set To Draft" class="oe_highlight" id="bid_set_to_draft" data-hotkey="v"/>
-                    <button name="button_approved" type="object" states="confirm" string="Approved" class="oe_highlight" id="bid_approved" data-hotkey="v"/>
-                    <button name="button_declined" type="object" states="confirm" string="Declined" class="oe_highlight" id="bid_declined" data-hotkey="v"/>  
+                    <button name="button_confirm" type="object" states="draft" string="Confirm" class="oe_highlight" id="bid_confirm" data-hotkey="v" groups="core_smt.groups_smt_ts"/> 
+                    <button name="button_set_to_draft" type="object" states="confirm" string="Set To Draft" class="oe_highlight" id="bid_set_to_draft" data-hotkey="v" groups="core_smt.groups_smt_ts"/>
+                    <button name="button_approved" type="object" states="confirm" string="Approved" class="oe_highlight" id="bid_approved" data-hotkey="v" groups="core_smt.groups_smt_ts"/>
+                    <button name="button_declined" type="object" states="confirm" string="Declined" class="oe_highlight" id="bid_declined" data-hotkey="v" groups="core_smt.groups_smt_ts"/>  
                     <field name="state" widget="statusbar" statusbar_visible="draft,confirm,approved" readonly="1"/>
                 </header>
                 <!-- <widget name="web_ribbon" title="Done" bg_color="bg-success" attrs="{'invisible': [('state', '!=', 'done')]}"/> -->
@@ -63,6 +63,10 @@
                                 </tree>
                             </field>
                         </page>
+                        <page string="Sket Drawing" name="material_required">
+                            <field name="sket_drawing_ids" string="Sket Drawing" nolabel="1" widget='many2many_binary' attrs="{'readonly': [('state','!=','draft')]}">
+                            </field>
+                        </page>
                         <page string="Item Spesification" name="item_spesification">
                             <field name="view_line_inquiry_ids" widget="section_and_note_one2many" mode="tree,kanban" readonly="1">
                                 <tree string="Purchase Order Lines" editable="bottom">
@@ -76,6 +80,7 @@
                                     <field name="machine_merk"/>
                                     <field name="machine_type"/>
                                     <field name="remarks"/>
+                                    
 
                                 </tree>
                             </field>

@@ -21,11 +21,11 @@
         <field name="arch" type="xml">
             <form string="Purchase Order" class="o_purchase_order">
                 <header>
-                    <button name="action_po_send" states="approved" string="Send by Email" type="object" class="oe_highlight" data-hotkey="g"/>
-                    <button name="print_purchase_order" string="Print Purchase Order" type="object" states="approved" class="oe_highlight" data-hotkey="k"/>
-                    <button name="button_confirm" type="object" states="draft" string="Confirm Order" class="oe_highlight" id="bid_confirm" data-hotkey="v"/>
-                    <button name="button_set_to_draft" type="object" states="confirm" string="Set To Draft" class="oe_highlight" id="bid_set_to_draft" data-hotkey="v"/>
-                    <button name="button_approved" type="object" states="confirm" string="Approved" class="oe_highlight" id="bid_approved" data-hotkey="v"/>
+                    <button name="action_po_send" states="approved" string="Send by Email" type="object" class="oe_highlight" data-hotkey="g" groups="core_smt.groups_smt_sales_2"/>
+                    <button name="print_purchase_order" string="Print Purchase Order" type="object" states="approved" class="oe_highlight" data-hotkey="k" groups="core_smt.groups_smt_sales_2"/>
+                    <button name="button_confirm" type="object" states="draft" string="Confirm Order" class="oe_highlight" id="bid_confirm" data-hotkey="v" groups="core_smt.groups_smt_sales_2"/>
+                    <button name="button_set_to_draft" type="object" states="confirm" string="Set To Draft" class="oe_highlight" id="bid_set_to_draft" data-hotkey="v" groups="core_smt.groups_smt_sales_2"/>
+                    <button name="button_approved" type="object" states="confirm" string="Approved" class="oe_highlight" id="bid_approved" data-hotkey="v" groups="core_smt.groups_smt_sales_2"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,confirm,approved,done" attrs="{'invisible': [('state', '=', 'done')]}" readonly="1"/>
                 </header>
                 <widget name="web_ribbon" title="Done" bg_color="bg-success" attrs="{'invisible': [('state', '!=', 'done')]}"/>

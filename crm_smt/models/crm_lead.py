@@ -30,7 +30,7 @@ class SMTCRMLeadInquiry(models.Model):
     show_pricing_required = fields.Boolean('show_pricing_required', compute='_show_pricing')
     count_material = fields.Integer('count_material', compute='_count_material')
     count_pricing = fields.Integer('count_pricing', compute='_count_pricing')
-    
+    user_id = fields.Many2one('res.users', string='Reponsibility', default=lambda self: self.env.user)
     
     def _count_material(self):
         for rec in self:

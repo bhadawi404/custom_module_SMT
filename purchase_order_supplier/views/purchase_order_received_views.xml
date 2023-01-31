@@ -22,8 +22,8 @@
         <field name="arch" type="xml">
             <form string="Received Product PO" class="o_delivery_order">
                 <header>
-                    <button name="set_quantity" states="waiting" string="Set Quantity Product" type="object" class="oe_highlight" data-hotkey="g"/>
-                    <button name="button_received" string="Received Product" type="object" states="waiting" class="oe_highlight" data-hotkey="k"/>
+                    <button name="set_quantity" states="waiting" string="Set Quantity Product" type="object" class="oe_highlight" data-hotkey="g" groups="core_smt.groups_smt_sales_2"/>
+                    <button name="button_received" string="Received Product" type="object" states="waiting" class="oe_highlight" data-hotkey="k" groups="core_smt.groups_smt_sales_2"/>
                     <field name="state" widget="statusbar" statusbar_visible="waiting,done" attrs="{'invisible': [('state', '=', 'done')]}" readonly="1"/>
                 </header>
                 <widget name="web_ribbon" title="Done" bg_color="bg-success" attrs="{'invisible': [('state', '!=', 'done')]}"/>

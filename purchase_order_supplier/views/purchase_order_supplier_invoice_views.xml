@@ -23,7 +23,7 @@
         <field name="arch" type="xml">
             <form string="Invoice Supplier" class="o_invoice_purchase_order">
                 <header>
-                    <button name="button_approved" type="object" states="draft" string="Approved" class="oe_highlight" id="bid_approved" data-hotkey="v"/> -->
+                    <button name="button_approved" type="object" states="draft" string="Approved" class="oe_highlight" id="bid_approved" data-hotkey="v" groups="core_smt.groups_smt_hrd"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,approved,done" attrs="{'invisible': [('state', '=', 'done')]}" readonly="1"/>
                 </header>
                 <widget name="web_ribbon" title="Done" bg_color="bg-success" attrs="{'invisible': [('state', '!=', 'done')]}"/>

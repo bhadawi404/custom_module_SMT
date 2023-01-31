@@ -9,7 +9,7 @@
     'description': "",
     'website': 'https://smtek-tool.com/',
     'depends': [
-        'calendar'
+        'calendar','base'
     ],
     'data': [
         'views/crm_lead_pricing_views.xml',

@@ -267,7 +267,7 @@ class SMTCRMLeadInquiryPricing(models.Model):
     _description = 'CRM Inquiry Pricing Sukses Mandiri Teknindo'
     
     
-    name = fields.Char('Request Inquiry No.')
+    name = fields.Char('Request Inquiry No.', default="/")
     inquiry_id = fields.Many2one('smt.crm.lead.inquiry', string='Inquiry No')
     view_pricing_ids = fields.One2many('smt.crm.lead.inquiry.pricing.line', 'inquiry_pricing_id', string='Pricing')
     state = fields.Selection([

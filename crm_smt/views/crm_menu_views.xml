@@ -5,5 +5,7 @@
     
     <menuitem id="smt_menu_lead" name="Lead" parent="smt_menu_crm_root" sequence="2"/>
     <menuitem id="smt_menu_inquiry" name="Inquiry" parent="smt_menu_lead" sequence="1" action="smt_crm_lead_inquiry_views_action"/>
+    <menuitem id="smt_menu_inquiry_material" name="Request Material Required" parent="smt_menu_lead" sequence="2" action="smt_crm_lead_inquiry_material_views_action"/>
+    <menuitem id="smt_menu_inquiry_pricing" name="Request Pricing Required" parent="smt_menu_lead" sequence="3" action="smt_crm_lead_inquiry_pricing_views_action"/>
     <!-- End Menu CRM -->
 </odoo>

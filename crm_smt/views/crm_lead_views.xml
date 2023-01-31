@@ -32,16 +32,12 @@
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button type="object" name="action_view_material" class="oe_stat_button" icon="fa-pencil" attrs="{'invisible':[('count_material','=', 0)]}">
-                            <field name="count_material" widget="statinfo" string="Material Required" help="Incoming Shipments"/>
+                            <field name="count_material" widget="statinfo" string="Material Required" help="Material Required"/>
                         </button>
-                        <!-- <button type="object" class="oe_stat_button" icon="fa-pencil-square-o" name="action_view_invoice">
-                            <div class="o_form_field o_stat_info">
-                                <span class="o_stat_value">
-                                    <field name="count_invoice" widget="monetary" />
-                                </span>
-                                <span class="o_stat_text">Invoiced</span>
-                            </div>
-                        </button> -->
+                        <button type="object" name="action_view_pricing" class="oe_stat_button" icon="fa-money" attrs="{'invisible':[('count_pricing','=', 0)]}">
+                            <field name="count_pricing" widget="statinfo" string="Pricing Required" help="Pricing Required"/>
+                        </button>
+                        
                     </div>
                     
 

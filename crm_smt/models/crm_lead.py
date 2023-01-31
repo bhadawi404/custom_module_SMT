@@ -29,10 +29,28 @@ class SMTCRMLeadInquiry(models.Model):
     show_material_required = fields.Boolean('show_materal_required', compute='_show_material')
     show_pricing_required = fields.Boolean('show_pricing_required', compute='_show_pricing')
     count_material = fields.Integer('count_material', compute='_count_material')
+    count_pricing = fields.Integer('count_pricing', compute='_count_pricing')
     
     def _count_material(self):
         for rec in self:
             rec.count_material = self.env['smt.crm.lead.inquiry.material'].search_count([('inquiry_id','=', rec.id)])
+    
+    def _count_pricing(self):
+        for rec in self:
+            rec.count_pricing = self.env['smt.crm.lead.inquiry.pricing'].search_count([('inquiry_id','=', rec.id)])
+    
+    def action_view_pricing(self):
+        action = {
+            'type': 'ir.actions.act_window',
+            'name': 'Pricing Required',
+            'res_model': 'smt.crm.lead.inquiry.pricing',
+            'view_mode': 'tree,form',
+            'view_id': False,
+            'views': [(self.env.ref('crm_smt.smt_crm_lead_inquiry_pricing_views_tree').id, 'tree'), (self.env.ref('crm_smt.smt_crm_lead_inquiry_pricing_views_form').id, 'form')],
+            'domain': [('inquiry_id','=',self.id)],
+            'target': 'current',
+        }
+        return action
     
     def action_view_material(self):
         action = {
@@ -85,6 +103,8 @@ class SMTCRMLeadInquiry(models.Model):
     def button_confirm(self):
         
         material_obj = self.env['smt.crm.lead.inquiry.material']
+        pricing_obj = self.env['smt.crm.lead.inquiry.pricing']
+        pricing_line_obj = self.env['smt.crm.lead.inquiry.pricing.line']
         material_line_obj = self.env['smt.crm.lead.inquiry.material.line']
         action_data = {}
         for rec in self:
@@ -98,6 +118,17 @@ class SMTCRMLeadInquiry(models.Model):
                 for line in rec.view_line_inquiry_ids:
                     material_line = material_line_obj.create({
                     'inquiry_material_id': material_ids.id,
+                    'line_inquiry_item_id': line.id
+                })
+            vals_pricing = {
+                'inquiry_id': rec.id,
+            }
+            pricing_ids = pricing_obj.create(vals)
+            action_data['pricing'] = [pricing_ids]
+            if pricing_ids:
+                for line in rec.view_line_inquiry_ids:
+                    pricing_line = pricing_line_obj.create({
+                    'inquiry_pricing_id': pricing_ids.id,
                     'line_inquiry_item_id': line.id
                 })
             rec.write({'state': 'confirm'})    
@@ -228,3 +259,52 @@ class SMTCRMLeadInquiryMaterialLine(models.Model):
     grade = fields.Char('Grade')
     
 SMTCRMLeadInquiryMaterialLine()
+
+class SMTCRMLeadInquiryPricing(models.Model):
+    _name = 'smt.crm.lead.inquiry.pricing'
+    _description = 'CRM Inquiry Pricing Sukses Mandiri Teknindo'
+    
+    
+    name = fields.Char('Request Inquiry No.')
+    inquiry_id = fields.Many2one('smt.crm.lead.inquiry', string='Inquiry No')
+    view_pricing_ids = fields.One2many('smt.crm.lead.inquiry.pricing.line', 'inquiry_pricing_id', string='Pricing')
+    state = fields.Selection([
+        ('draft', 'Draft'),
+        ('confirm', 'Confirm'),
+        ('approved', 'Approved'),
+        ('declined', 'Declined'),
+    ], string='state', default='draft')
+    
+
+    def button_confirm(self):
+        self.write({'state': 'confirm'})
+        self.env['smt.crm.lead.inquiry'].browse(self.inquiry_id.id).write({'state': 'checking_spv_produksi'})
+    
+    def button_set_to_draft(self):
+        self.write({'state': 'draft'})
+    
+    def button_approved(self):
+        self.write({'state': 'approved'})
+        self.env['smt.crm.lead.inquiry'].browse(self.inquiry_id.id).write({'state': 'approved_spv_produksi'})
+    
+    def button_declined(self):
+         self.write({'state': 'declined'})
+         
+SMTCRMLeadInquiryPricing()
+
+class SMTCRMLeadInquiryPricingLine(models.Model):
+    _name = 'smt.crm.lead.inquiry.pricing.line'
+    _description = 'CRM Inquiry Pricing Line Sukses Mandiri Teknindo'
+    
+    
+    inquiry_pricing_id = fields.Many2one('smt.crm.lead.inquiry.pricing', string='Inquiry Pricing ID')
+    line_inquiry_item_id = fields.Many2one('smt.crm.lead.inquiry.line', string='line_item')
+    inquiry_id = fields.Many2one('smt.crm.lead.inquiry', string='Inquiry', related='line_inquiry_item_id.inquiry_id')
+    product_name = fields.Char('Item name', related='line_inquiry_item_id.product_name', store=True)
+    quantity = fields.Float('Quantity', related='line_inquiry_item_id.quantity', store=True)
+    unit_price = fields.Float('Unit Price')
+    total_price = fields.Float('Total Price')
+    
+SMTCRMLeadInquiryPricing()
+
+

@@ -287,7 +287,7 @@ class SMTCRMLeadInquiryPricing(models.Model):
     def create(self, vals):
         if vals.get('name', '/') == '/':
             vals['name'] = self.env['ir.sequence'].next_by_code('smt.crm.lead.inquiry.pricing') or '/'
-        res = super(SMTCRMLeadInquiryMaterial, self).create(vals)
+        res = super(SMTCRMLeadInquiryPricing, self).create(vals)
         return res
     
     def button_confirm(self):

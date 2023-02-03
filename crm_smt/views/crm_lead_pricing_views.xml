@@ -19,11 +19,9 @@
         <field name="arch" type="xml">
             <form string="Pricing" class="o_inquiry" create="false">
                 <header>
-                    <button name="button_confirm" type="object" states="draft" string="Confirm" class="oe_highlight" id="bid_confirm" data-hotkey="v" groups="core_smt.groups_smt_spv_produksi"/> 
-                    <button name="button_set_to_draft" type="object" states="confirm" string="Set To Draft" class="oe_highlight" id="bid_set_to_draft" data-hotkey="v" groups="core_smt.groups_smt_spv_produksi"/>
-                    <button name="button_approved" type="object" states="confirm" string="Approved" class="oe_highlight" id="bid_approved" data-hotkey="v" groups="core_smt.groups_smt_spv_produksi"/>
-                    <button name="button_declined" type="object" states="confirm" string="Declined" class="oe_highlight" id="bid_declined" data-hotkey="v" groups="core_smt.groups_smt_spv_produksi"/>  
-                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm,approved" readonly="1"/>
+                    <button name="button_approved" type="object" states="draft" confirm="Apakah Anda yakin akan approved request pricing ini, periksa kembali sebelum anda approved" string="Approved" class="oe_highlight" id="bid_approved" data-hotkey="v" groups="core_smt.groups_smt_spv_produksi"/>
+                    <button name="button_declined" type="object" states="draft" string="Return To Spv Sales" confirm="Apakah Anda yakin akan declined request pricing ini ??" class="oe_highlight" id="bid_declined" data-hotkey="v" groups="core_smt.groups_smt_spv_produksi"/>  
+                    <field name="state" widget="statusbar" statusbar_visible="draft,approved" readonly="1"/>
                 </header>
                 <!-- <widget name="web_ribbon" title="Done" bg_color="bg-success" attrs="{'invisible': [('state', '!=', 'done')]}"/> -->
                 <sheet>
@@ -102,6 +100,7 @@
         <field name="name">Pricing Required</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">smt.crm.lead.inquiry.pricing</field>
+        <field name="domain">[('inquiry_id.state', '=', 'approved_spv'),('state', '=', 'draft')]</field>
         <field name="view_mode">tree,form</field>
         <field name="help" type="html">
             <p class="oe_view_nocontent_create"> No Pricing Required available. </p>

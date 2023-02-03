@@ -19,11 +19,12 @@ class SMTCRMLeadInquiry(models.Model):
     state = fields.Selection([
         ('draft', 'Draft'),
         ('confirm', 'Confirm'),
-        ('checking_ts', 'Checking Technical Support'),
         ('approved_ts', 'Approved Technical Support'),
+        ('declined_ts', 'Declined Technical Support'),
         ('approved_spv', 'Approved Spv Sales'),
-        ('checking_spv_produksi', 'Request Pricing'),
+        ('declined_spv', 'Declined Spv Sales'),
         ('approved_spv_produksi', 'Approved Spv Produksi'),
+        ('declined_spv_produksi', 'Declined Spv Produksi'),
         ('quotation', 'Waiting Quote'),
     ], string='state', default='draft')
     show_material_required = fields.Boolean('show_materal_required', compute='_show_material')
@@ -34,11 +35,11 @@ class SMTCRMLeadInquiry(models.Model):
     
     def _count_material(self):
         for rec in self:
-            rec.count_material = self.env['smt.crm.lead.inquiry.material'].search_count([('inquiry_id','=', rec.id)])
+            rec.count_material = self.env['smt.crm.lead.inquiry.material'].search_count([('inquiry_id','=', rec.id),('state','=', 'approved')])
     
     def _count_pricing(self):
         for rec in self:
-            rec.count_pricing = self.env['smt.crm.lead.inquiry.pricing'].search_count([('inquiry_id','=', rec.id)])
+            rec.count_pricing = self.env['smt.crm.lead.inquiry.pricing'].search_count([('inquiry_id','=', rec.id),('state','=', 'approved')])
     
     def action_view_pricing(self):
         action = {
@@ -121,24 +122,53 @@ class SMTCRMLeadInquiry(models.Model):
                     'inquiry_material_id': material_ids.id,
                     'line_inquiry_item_id': line.id
                 })
-            vals_pricing = {
-                'inquiry_id': rec.id,
-            }
-            pricing_ids = pricing_obj.create(vals)
-            action_data['pricing'] = [pricing_ids]
-            if pricing_ids:
-                for line in rec.view_line_inquiry_ids:
-                    pricing_line = pricing_line_obj.create({
-                    'inquiry_pricing_id': pricing_ids.id,
-                    'line_inquiry_item_id': line.id
-                })
             rec.write({'state': 'confirm'})    
     
     def button_set_to_draft(self):
         self.write({'state': 'draft'})
-    
+        
     def button_confirm_spv_sales(self):
-        self.write({'state': 'approved_spv'})
+        pricing_obj = self.env['smt.crm.lead.inquiry.pricing']
+        pricing_line_obj = self.env['smt.crm.lead.inquiry.pricing.line']
+        material_line_obj = self.env['smt.crm.lead.inquiry.material.line']
+        action_data = {}
+        for rec in self:
+            cek_pricing = self.env['smt.crm.lead.inquiry.pricing'].search([('inquiry_id','=',rec.id)])
+            if not cek_pricing:
+                vals_pricing = {
+                    'inquiry_id': rec.id,
+                }
+                pricing_ids = pricing_obj.create(vals_pricing)
+                action_data['pricing'] = [pricing_ids]
+                if pricing_ids:
+                    for line in rec.view_line_inquiry_ids:
+                        pricing_line = pricing_line_obj.create({
+                        'inquiry_pricing_id': pricing_ids.id,
+                        'line_inquiry_item_id': line.id
+                    })
+            else:
+                self.env['smt.crm.lead.inquiry.pricing'].browse(cek_pricing.id).write({'state': 'draft'})
+            self.write({'state': 'approved_spv'})
+
+    def button_declined_spv_sales(self):
+        material_ids = self.env['smt.crm.lead.inquiry.material'].search([('inquiry_id','=', self.id), ('state','=', 'approved')])
+        for rec in material_ids:
+            rec.write({'state': 'declined_spv_sales'})
+        self.write({'state':'declined_spv'})
+        
+    def button_confirm_from_ts(self):
+        material_ids = self.env['smt.crm.lead.inquiry.material'].search([('inquiry_id','=', self.id), ('state','=', 'return_to_sales')])
+        for rec in material_ids:
+            rec.write({'state': 'draft'})
+        self.write({'state':'confirm'})
+    
+    def button_confirm_from_spv_produksi(self):
+        pricing_ids = self.env['smt.crm.lead.inquiry.pricing'].search([('inquiry_id','=', self.id), ('state','=', 'return_to_spv')])
+        for rec in pricing_ids:
+            rec.write({'state':'draft'})
+        self.write({'state':'approved_spv'})
+        
+      
 SMTCRMLeadInquiry()
 
 class SMTCRMLeadInquiryLine(models.Model):
@@ -180,9 +210,10 @@ class SMTCRMLeadInquiryMaterial(models.Model):
     view_line_inquiry_ids = fields.One2many('smt.crm.lead.inquiry.line', 'inquiry_id', related='inquiry_id.view_line_inquiry_ids', string='Item Spesification',ondelete='cascade')
     state = fields.Selection([
         ('draft', 'Draft'),
-        ('confirm', 'Confirm'),
         ('approved', 'Approved'),
-        ('declined', 'Declined'),
+        ('return_to_sales','Return To Sales'),
+        ('declined_spv_sales', 'Declined Spv Sales'),
+        
     ], string='state', default='draft')
     sket_drawing_ids = fields.Many2many('ir.attachment', string='Sket Drawing')
     
@@ -199,19 +230,20 @@ class SMTCRMLeadInquiryMaterial(models.Model):
         res = super(SMTCRMLeadInquiryMaterial, self).create(vals)
         return res
     
-    def button_confirm(self):
-        self.write({'state': 'confirm'})
-        self.env['smt.crm.lead.inquiry'].browse(self.inquiry_id.id).write({'state': 'checking_ts'})
-    
-    def button_set_to_draft(self):
-        self.write({'state': 'draft'})
-    
     def button_approved(self):
         self.write({'state': 'approved'})
         self.env['smt.crm.lead.inquiry'].browse(self.inquiry_id.id).write({'state': 'approved_ts'})
     
-    def button_declined(self):
-         self.write({'state': 'declined'})
+    #kembalikan ke sales
+    def return_document_to_sales(self):
+        self.write({'state': 'return_to_sales'})
+        self.env['smt.crm.lead.inquiry'].browse(self.inquiry_id.id).write({'state': 'declined_ts'})
+    
+    def button_confirm_from_spv_sales(self):
+        inquiry_ids = self.env['smt.crm.lead.inquiry'].search([('id','=', self.inquiry_id.id), ('state','=', 'declined_spv')])
+        for rec in inquiry_ids:
+            rec.write({'state':'approved_ts'})
+        self.write({'state':'approved'})
     
 SMTCRMLeadInquiryMaterial()
 
@@ -267,14 +299,13 @@ class SMTCRMLeadInquiryPricing(models.Model):
     _description = 'CRM Inquiry Pricing Sukses Mandiri Teknindo'
     
     
-    name = fields.Char('Request Inquiry No.', default="/")
+    name = fields.Char('Request Pricing No.', default="/")
     inquiry_id = fields.Many2one('smt.crm.lead.inquiry', string='Inquiry No')
     view_pricing_ids = fields.One2many('smt.crm.lead.inquiry.pricing.line', 'inquiry_pricing_id', string='Pricing')
     state = fields.Selection([
         ('draft', 'Draft'),
-        ('confirm', 'Confirm'),
         ('approved', 'Approved'),
-        ('declined', 'Declined'),
+        ('return_to_spv', 'Return Document to Spv Sales'),
     ], string='state', default='draft')
     
     @api.ondelete(at_uninstall=False)
@@ -290,19 +321,54 @@ class SMTCRMLeadInquiryPricing(models.Model):
         res = super(SMTCRMLeadInquiryPricing, self).create(vals)
         return res
     
-    def button_confirm(self):
-        self.write({'state': 'confirm'})
-        self.env['smt.crm.lead.inquiry'].browse(self.inquiry_id.id).write({'state': 'checking_spv_produksi'})
-    
-    def button_set_to_draft(self):
-        self.write({'state': 'draft'})
-    
+ 
     def button_approved(self):
-        self.write({'state': 'approved'})
-        self.env['smt.crm.lead.inquiry'].browse(self.inquiry_id.id).write({'state': 'approved_spv_produksi'})
-    
+        quote_obj = self.env['smt.quotation.customer']
+        quote_line_obj = self.env['smt.quotation.line.customer']
+        action_data = {}
+        subtotal = []
+        for rec in self:
+            for line in rec.view_pricing_ids:
+                total_price_line = line.quantity * line.unit_price
+                subtotal.append(total_price_line)
+            result_subtotal = sum(subtotal)
+            result_diskon = 0
+            result_pph23 = 0
+            result_net = result_subtotal - result_diskon
+            result_tax = result_net * 11 / 100
+            result_gross = result_net + result_tax - result_pph23
+            vals = {
+                'inquiry_id': rec.inquiry_id.id,
+                'contact_id': rec.inquiry_id.contact_id.id,
+                'subtotal': result_subtotal,
+                'discount': result_diskon,
+                'net': result_net,
+                'tax': result_tax,
+                'pph23': result_pph23,
+                'gross': result_gross,
+                'state': 'draft',
+                'user_id': rec.inquiry_id.user_id.id
+                
+            }
+            quote_ids = quote_obj.create(vals)
+            action_data['quote'] = [quote_ids]
+            quote = quote_ids
+            if quote:
+                for line in rec.view_pricing_ids:
+                    quote_line = quote_line_obj.create({
+                    'quote_id': quote_ids.id,
+                    'product_name': line.product_name,
+                    'quantity': line.quantity,
+                    'unit_price': line.unit_price,
+                    'total_price': line.total_price,
+                })
+            rec.write({'state':'approved'})
+            self.env['smt.crm.lead.inquiry'].browse(rec.inquiry_id.id).write({'state': 'approved_spv_produksi'})
+            
+        
     def button_declined(self):
-         self.write({'state': 'declined'})
+         self.write({'state': 'return_to_spv'})
+         self.env['smt.crm.lead.inquiry'].browse(self.inquiry_id.id).write({'state': 'declined_spv_produksi'})
          
 SMTCRMLeadInquiryPricing()
 

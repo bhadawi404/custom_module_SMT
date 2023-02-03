@@ -5,7 +5,7 @@
         <field name="priority" eval="1"/>
         <field name="arch" type="xml">
             <tree string="Inquiry" sample="1" default_order='date desc'>
-                <field name="name" string="Inuqiry No." readonly="1" decoration-info="state in ('draft','confirm')"/>
+                <field name="name" string="Inquiry No." readonly="1" decoration-info="state in ('draft','confirm')"/>
                 <field name="date" />
                 <field name="contact_id" string="Customer Name" widget="avatar"/>
                 <field name="qty_all_request" sum="Total Qty" string="Total Qty" widget="monetary"/>
@@ -21,12 +21,21 @@
         <field name="arch" type="xml">
             <form string="Inquiry" class="o_inquiry">
                 <header>
+                    <!-- <group>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirm,approved_ts,declined_ts,approved_spv,approved_spv_produksi,declined_spv_produksi,quotation" readonly="1"/>
+                    </group> -->
+                    
                     <!-- <button name="action_po_send" states="approved" string="Send by Email" type="object" class="oe_highlight" data-hotkey="g"/> -->
                     <!-- <button name="print_inquiry" string="Print Inquiry" type="object" states="confirm" class="oe_highlight" data-hotkey="k"/> -->
                     <button name="button_confirm" type="object" states="draft" string="Confirm Inquiry" class="oe_highlight" id="bid_confirm" data-hotkey="v" groups="core_smt.groups_smt_sales"/>
-                    <button name="button_set_to_draft" type="object" states="confirm" string="Set To Draft" class="oe_highlight" id="bid_set_to_draft" data-hotkey="v" groups="core_smt.groups_smt_sales"/>
+                    <button name="button_confirm_from_ts" type="object" states="declined_ts" string="Confirm Inquiry" class="oe_highlight" id="bid_confirm" data-hotkey="v" groups="core_smt.groups_smt_sales"/>
+                    
+                    <!-- <button name="button_set_to_draft" type="object" states="confirm" string="Set To Draft" class="oe_highlight" id="bid_set_to_draft" data-hotkey="v" groups="core_smt.groups_smt_sales"/> -->
                     <button name="button_confirm_spv_sales" type="object" states="approved_ts" string="Approved" class="oe_highlight" id="bid_approved" data-hotkey="v" groups="core_smt.groups_smt_spv_sales"/>
-                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm,checking_ts,approved_ts,approved_spv,checking_spv_produksi,approved_spv_produksi,quotation" readonly="1"/>
+                    <button name="button_declined_spv_sales" type="object" states="approved_ts,declined_spv_produksi" string="Return Document To Technical Support" class="oe_highlight" id="bid_declined" data-hotkey="v" groups="core_smt.groups_smt_spv_sales"/>
+                    <button name="button_confirm_from_spv_produksi" type="object" states="declined_spv_produksi" string="Approved" class="oe_highlight" id="bid_declined" data-hotkey="v" groups="core_smt.groups_smt_spv_sales"/>
+
+                    
                 </header>
                 <!-- <widget name="web_ribbon" title="Done" bg_color="bg-success" attrs="{'invisible': [('state', '!=', 'done')]}"/> -->
                 <sheet>
@@ -49,20 +58,21 @@
                     </div>
                     <group>
                         <group>
-                            <field name="contact_id" string="Customer Name" widget="res_partner_many2one" placeholder="Name" required="1" attrs="{'readonly': [('state','!=','draft')]}"/>
+                            <field name="contact_id" string="Customer Name" widget="res_partner_many2one" placeholder="Name" required="1" attrs="{'readonly': [('state','not in',('draft','declined_ts','declined_spv_produksi'))]}"/>
                             <field name="email" readonly="1"/>
                             <field name="phone" readonly="1"/>
                             <field name="address" readonly="1"/>
                             <field name="attn" readonly="1"/>
                         </group>
                         <group>
-                            <field name="date" required="1" widget="date" attrs="{'readonly': [('state','!=','draft')]}"/>
+                            <field name="date" required="1" widget="date" attrs="{'readonly': [('state','not in',('draft','declined_ts'))]}"/>
                             <field name="qty_all_request" readonly="1"/>
+                            <field name="state" widget="badge" readonly="1"/>
                         </group>
                     </group>
                     <notebook>
                         <page string="Item Spesification" name="item_spesification">
-                            <field name="view_line_inquiry_ids" widget="section_and_note_one2many" mode="tree,kanban" attrs="{'readonly': [('state','!=','draft')]}">
+                            <field name="view_line_inquiry_ids" widget="section_and_note_one2many" mode="tree,kanban" attrs="{'readonly': [('state','not in',('draft','declined_ts'))]}">
                                 <tree string="Purchase Order Lines" editable="bottom">
                                     <field name="description_product" required="1"/>
                                     <field name="treatment_product" />

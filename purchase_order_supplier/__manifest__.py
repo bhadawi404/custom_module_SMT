@@ -5,7 +5,7 @@
     'name': 'Purchase Order SMT',
     'version': '1.1',
     'category': 'Sukses Mandiri Teknindo/Master Data',
-    'summary': 'Master Data in Sukses Mandiri Teknindo',
+    'summary': 'Purchase Order in Sukses Mandiri Teknindo',
     'description': "",
     'website': 'https://smtek-tool.com/',
     'depends': [

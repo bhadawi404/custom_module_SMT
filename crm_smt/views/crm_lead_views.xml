@@ -27,13 +27,13 @@
                     
                     <!-- <button name="action_po_send" states="approved" string="Send by Email" type="object" class="oe_highlight" data-hotkey="g"/> -->
                     <!-- <button name="print_inquiry" string="Print Inquiry" type="object" states="confirm" class="oe_highlight" data-hotkey="k"/> -->
-                    <button name="button_confirm" type="object" states="draft" string="Confirm Inquiry" class="oe_highlight" id="bid_confirm" data-hotkey="v" groups="core_smt.groups_smt_sales"/>
-                    <button name="button_confirm_from_ts" type="object" states="declined_ts" string="Confirm Inquiry" class="oe_highlight" id="bid_confirm" data-hotkey="v" groups="core_smt.groups_smt_sales"/>
+                    <button name="button_confirm" type="object" states="draft" confirm="Apakah Anda yakin akan confirm inquiry ini, periksa kembali sebelum anda confirm" string="Confirm Inquiry" class="oe_highlight" id="bid_confirm" data-hotkey="v" groups="core_smt.groups_smt_sales"/>
+                    <button name="button_confirm_from_ts" type="object" states="declined_ts" confirm="Apakah Anda yakin akan confirm inquiry ini, periksa kembali sebelum anda confirm" string="Confirm Inquiry" class="oe_highlight" id="bid_confirm" data-hotkey="v" groups="core_smt.groups_smt_sales"/>
                     
                     <!-- <button name="button_set_to_draft" type="object" states="confirm" string="Set To Draft" class="oe_highlight" id="bid_set_to_draft" data-hotkey="v" groups="core_smt.groups_smt_sales"/> -->
-                    <button name="button_confirm_spv_sales" type="object" states="approved_ts" string="Approved" class="oe_highlight" id="bid_approved" data-hotkey="v" groups="core_smt.groups_smt_spv_sales"/>
-                    <button name="button_declined_spv_sales" type="object" states="approved_ts,declined_spv_produksi" string="Return Document To Technical Support" class="oe_highlight" id="bid_declined" data-hotkey="v" groups="core_smt.groups_smt_spv_sales"/>
-                    <button name="button_confirm_from_spv_produksi" type="object" states="declined_spv_produksi" string="Approved" class="oe_highlight" id="bid_declined" data-hotkey="v" groups="core_smt.groups_smt_spv_sales"/>
+                    <button name="button_confirm_spv_sales" type="object" states="approved_ts" string="Approved" class="oe_highlight" id="bid_approved" confirm="Apakah Anda yakin akan Approved inquiry ini, periksa kembali sebelum anda approved" data-hotkey="v" groups="core_smt.groups_smt_spv_sales"/>
+                    <button name="button_declined_spv_sales" type="object" states="approved_ts,declined_spv_produksi" string="Return Document To Technical Support" confirm="Apakah Anda yakin akan mengembalikan dokumen ini ke technical support, periksa kembali sebelum anda mengembalikannya" class="oe_highlight" id="bid_declined" data-hotkey="v" groups="core_smt.groups_smt_spv_sales"/>
+                    <button name="button_confirm_from_spv_produksi" type="object" states="declined_spv_produksi" string="Approved" class="oe_highlight" id="bid_declined" confirm="Apakah Anda yakin akan Approved inquiry ini, periksa kembali sebelum anda approved" data-hotkey="v" groups="core_smt.groups_smt_spv_sales"/>
 
                     
                 </header>

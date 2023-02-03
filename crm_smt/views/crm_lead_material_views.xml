@@ -19,9 +19,9 @@
         <field name="arch" type="xml">
             <form string="Material" class="o_inquiry" create="false">
                 <header>
-                    <button name="button_approved" type="object" states="draft" confirm="Apakah Anda yakin akan approve request material required ini, periksa kembali sebelum anda approve" string="Approved" class="oe_highlight" id="bid_approved" data-hotkey="v" groups="core_smt.groups_smt_ts"/>
-                    <button name="return_document_to_sales" type="object" states="draft,declined_spv_sales" string="Return Document To Sales" class="oe_highlight" id="bid_declined" data-hotkey="v" groups="core_smt.groups_smt_ts"/>  
-                    <button name="button_confirm_from_spv_sales" type="object" states="declined_spv_sales" string="Approved" class="oe_highlight" id="bid_declined" data-hotkey="v" groups="core_smt.groups_smt_ts"/>  
+                    <button name="button_approved" type="object" states="draft" confirm="Apakah Anda yakin akan approved request material required ini, periksa kembali sebelum anda approved" string="Approved" class="oe_highlight" id="bid_approved" data-hotkey="v" groups="core_smt.groups_smt_ts"/>
+                    <button name="return_document_to_sales" type="object" states="draft,declined_spv_sales" string="Return Document To Sales" confirm="Apakah Anda yakin akan mengembalikan dokumen ini ke Sales, periksa kembali sebelum anda mengembalikannya" class="oe_highlight" id="bid_declined" data-hotkey="v" groups="core_smt.groups_smt_ts"/>  
+                    <button name="button_confirm_from_spv_sales" type="object" states="declined_spv_sales" string="Approved" class="oe_highlight" confirm="Apakah Anda yakin akan approved request material required ini, periksa kembali sebelum anda approved" id="bid_declined" data-hotkey="v" groups="core_smt.groups_smt_ts"/>  
                     <field name="state" widget="statusbar" statusbar_visible="draft,approved" readonly="1"/>
                 </header>
                 <!-- <widget name="web_ribbon" title="Done" bg_color="bg-success" attrs="{'invisible': [('state', '!=', 'done')]}"/> -->

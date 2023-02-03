@@ -1,0 +1,5 @@
+<odoo>
+    <!-- Menu Purchase Order -->
+    <menuitem id="smt_menu_quote" name="Quote" parent="crm_smt.smt_menu_crm_root" sequence="3" action="smt_quote_views_action"/>
+    <!-- End Menu Purchase Order -->
+</odoo>

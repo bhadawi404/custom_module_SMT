@@ -1,0 +1,102 @@
+<odoo>
+    <record id="smt_quote_views_tree" model="ir.ui.view">
+        <field name="name">smt.quote.views.tree</field>
+        <field name="model">smt.quotation.customer</field>
+        <field name="priority" eval="1"/>
+        <field name="arch" type="xml">
+            <tree string="Quote" sample="1">
+                <field name="inquiry_id"/>
+                <field name="name"/>
+                <field name="date_quote"/>
+                <field name="contact_id" widget="avatar"/>
+                <field name="customer_email" />
+                <field name="customer_phone" />
+                <field name="customer_address" />
+                <field name="customer_attn" />
+                <field name="due_date_quote" />
+                <field name="gross" sum="Total Price" string="Total" widget="monetary"/>
+                <field name="state" widget="badge"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="smt_quote_views_form" model="ir.ui.view">
+        <field name="name">smt.quote.views.form</field>
+        <field name="model">smt.quotation.customer</field>
+        <field name="priority" eval="1"/>
+        <field name="arch" type="xml">
+            <form string="Quote" class="o_quote">
+                <header>
+                    <button name="button_confirm" type="object" states="draft" string="Confirm Quote" class="oe_highlight" id="bid_confirm" data-hotkey="v"/>
+                    <button name="button_set_to_draft" type="object" states="confirm" string="Set To Draft" class="oe_highlight" id="bid_set_to_draft" data-hotkey="v"/>
+                    <button string="Win" name="button_win" type="object" class="oe_highlight" states="confirm"/>
+                    <button string="Lose" name="button_lose" type="object" class="oe_highlight" states="confirm"/>
+                    <button string="Negotiation" name="button_nego" type="object" class="oe_highlight" states="confirm"/>
+                    <button string="Convert To Sales Order" name="button_convert_so" type="object" class="oe_highlight" states="win"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm,win,lose,negotiation,request_to_sales_order" readonly="1"/>
+                </header>
+                <widget name="web_ribbon" title="WIN" bg_color="bg-success" attrs="{'invisible': [('state', '!=', 'win')]}"/>
+                <widget name="web_ribbon" title="LOSE" bg_color="bg-danger" attrs="{'invisible': [('state', '!=', 'lose')]}"/>
+                <sheet>
+                    <div class="oe_title">
+                        <span class="o_form_label">Quotation No.</span>
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            
+                            <field name="inquiry_id" invisible="1" />
+                            <field name="contact_id" widget="res_partner_many2one" attrs="{'readonly': [('state','in',('confirm','win','lose'))]}" required="1" />
+                            <field name="customer_email" readonly="1"/>
+                            <field name="customer_phone" readonly="1"/>
+                            <field name="customer_address" readonly="1"/>
+                            <field name="customer_attn" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="date_quote" widget="date" attrs="{'readonly': [('state','in',('confirm','win','lose'))]}" required="1" />
+                            <field name="payment_method" attrs="{'readonly': [('state','in',('confirm','win','lose'))]}" required="1"  />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Description" name="products">
+                            <field name="quote_line_ids" widget="section_and_note_one2many" mode="tree,kanban" attrs="{'readonly': [('state','in',('confirm','win','lose'))]}">
+                                <tree string="Description" editable="bottom">
+                                    <field name="product_name" readonly="1"/>
+                                    <field name="quantity" readonly="1"/>
+                                    <field name="unit_price"/>
+                                    <field name="total_price" readonly="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    <group>
+                        <group>
+                            <field name="notes" nolabel="1" placeholder="Define your terms and conditions ..." attrs="{'readonly': [('state','in',('confirm','win','lose'))]}"/>
+                        </group>
+                        <group >
+                            <field name="subtotal" readonly="1"/>
+                            <field name="discount" />
+                            <field name="net" readonly="1"/>
+                            <field name="tax" readonly="1"/>
+                            <field name="pph23" />
+                            <field name="gross" readonly="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="smt_quote_views_action" model="ir.actions.act_window">
+        <field name="name">Quote</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">smt.quotation.customer</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create"> No Quote available. </p>
+            <p> Create new one from scratch. </p>
+        </field>
+    </record>
+</odoo>

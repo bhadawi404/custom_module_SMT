@@ -13,7 +13,7 @@ class SMTCustomer(models.Model):
      
     customer_name = fields.Char('Customer Name', required=True)
     customer_code = fields.Char('Customer Code')
-    customer_email = fields.Char('Customer Email',required=True)
+    customer_email = fields.Char('Customer Email')
     customer_phone = fields.Char('Customer Phone')
     customer_tax = fields.Char('Customer NPWP')
     customer_address = fields.Text('Customer Address', required=True)

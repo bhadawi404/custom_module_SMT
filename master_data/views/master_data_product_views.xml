@@ -55,6 +55,7 @@
                                 </group>
                                 <group name="group_price">
                                     <field name="item_price" required="1"/>
+                                    <field name="item_diameter" />
                                 </group>
                             </group>
                         </page>

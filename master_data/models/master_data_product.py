@@ -22,6 +22,6 @@ class SMTProduct(models.Model):
         'smt.master.data.customer', string='Customer Name')
     supplier_id = fields.Many2one(
         'smt.master.data.supplier', string='Supplier Name')
-
+    item_diameter = fields.Char('Item Diameter')
 
 SMTProduct()

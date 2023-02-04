@@ -153,7 +153,7 @@ class SMTPurchaseOrderSupplierLine(models.Model):
     purchase_order_id = fields.Many2one('smt.purchase.order.supplier', string='purchase')
     product_id = fields.Many2one('smt.master.data.product', string='Product', required=True, domain=[('purchase_ok','=', True)])
     description = fields.Char('Description', related='product_id.item_description', readonly=True)
-    quantity = fields.Float('Quantity', required=True)
+    quantity = fields.Float('Quantity', required=True, default=1)
     quantity_received = fields.Float('Quantity Received', readonly=True)
     price = fields.Float('Unit Price', related="product_id.item_price", required=True, readonly=False)
     total_price = fields.Float('Total Price', compute='_compute_subtotal_price')

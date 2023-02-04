@@ -1,0 +1,9 @@
+<odoo>
+    <!-- Menu Purchase Order -->
+    <menuitem id="smt_menu_inventory_configuration" name="Configuration" parent="purchase_order_supplier.smt_menu_purchase_order_inventory_root" sequence="3" groups="base.group_user"/>
+    <menuitem id="smt_menu_inventory_configuration_warehouse" name="Warehouses" parent="smt_menu_inventory_configuration" sequence="1" action="smt_inventory_warehouse_action"/>
+    <menuitem id="smt_menu_inventory_configuration_operation_type" name="Operation type" parent="smt_menu_inventory_configuration" sequence="2" action="smt_inventory_operation_type_action"/>
+    <menuitem id="smt_menu_inventory_configuration_stock_location" name="Location" parent="smt_menu_inventory_configuration" sequence="3" action="smt_inventory_stock_location_action"/>
+
+    <!-- End Menu Purchase Order -->
+</odoo>

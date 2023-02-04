@@ -1,0 +1,48 @@
+<odoo>
+    <record id="smt_inventory_operation_type_tree" model="ir.ui.view">
+        <field name="name">smt.inventory.operation.type.tree</field>
+        <field name="model">smt.inventory.operation.type</field>
+        <field name="arch" type="xml">
+            <tree string="Opertion type">
+                <field name="name"/>
+                <field name="code" />
+                <field name="description" />
+            </tree>
+        </field>
+    </record>
+    <record id="smt_inventory_operation_type_form" model="ir.ui.view">
+        <field name="name">smt.inventory.operation.type.form</field>
+        <field name="model">smt.inventory.operation.type</field>
+        <field name="arch" type="xml">
+            <form string="Operation type">
+                <sheet>
+                    <div class="oe_title">
+                        <span class="o_form_label">Operation Type Name</span>
+                        <h1>
+                            <field name="name" required="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group colspan="12">
+                            <field name="code"/>
+                            <field name="description"/>
+                            <field name="source_location_id" />
+                            <field name="destination_location_id" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="smt_inventory_operation_type_action" model="ir.actions.act_window">
+        <field name="name">Operation type</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">smt.inventory.operation.type</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create"> No Operation type available. </p>
+            <p> Create new one from scratch. </p>
+        </field>
+    </record>
+</odoo>
+    

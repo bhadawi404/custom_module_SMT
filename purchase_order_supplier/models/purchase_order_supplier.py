@@ -155,7 +155,7 @@ class SMTPurchaseOrderSupplierLine(models.Model):
     description = fields.Char('Description', related='product_id.item_description', readonly=True)
     quantity = fields.Float('Quantity', required=True)
     quantity_received = fields.Float('Quantity Received', readonly=True)
-    price = fields.Float('Unit Price', required=True)
+    price = fields.Float('Unit Price', related="product_id.item_price", required=True, readonly=False)
     total_price = fields.Float('Total Price', compute='_compute_subtotal_price')
     
     

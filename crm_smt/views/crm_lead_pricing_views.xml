@@ -100,7 +100,6 @@
         <field name="name">Pricing Required</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">smt.crm.lead.inquiry.pricing</field>
-        <field name="domain">[('inquiry_id.state', '=', 'approved_spv'),('state', '=', 'draft')]</field>
         <field name="view_mode">tree,form</field>
         <field name="help" type="html">
             <p class="oe_view_nocontent_create"> No Pricing Required available. </p>

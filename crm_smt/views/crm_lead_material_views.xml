@@ -97,7 +97,6 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">smt.crm.lead.inquiry.material</field>
         <field name="view_mode">tree,form</field>
-        <field name="domain">[('state', 'in', ('draft','declined_spv_sales'))]</field>
         <field name="help" type="html">
             <p class="oe_view_nocontent_create"> No Material Required available. </p>
             <p> Create new one from scratch. </p>

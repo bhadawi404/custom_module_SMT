@@ -6,11 +6,11 @@
             <tree string="Inventory adjusment Item" editable="bottom" create="1" edit="1" import="1" js_class="singleton_list" sample="1">
                 <field name="location_id"/>
                 <field name="product_id" />
-                <field name="quantity" />
-                <field name="quantity_reserved" />
+                <field name="quantity" readonly="1" />
+                <field name="quantity_reserved" readonly="1" />
                 <field name="inventory_quantity" />
-                <field name="diference_qty" />
-                <field name="user_id" />
+                <field name="diference_qty" readonly="1"/>
+                <field name="user_id" readonly="1" />
             </tree>
         </field>
     </record>
@@ -21,11 +21,11 @@
             <tree string="Inventory adjusment Material" editable="bottom" create="1" edit="1" import="1" js_class="singleton_list" sample="1">
                 <field name="location_id"/>
                 <field name="material_id" />
-                <field name="quantity" />
-                <field name="quantity_reserved" />
+                <field name="quantity" readonly="1" />
+                <field name="quantity_reserved" readonly="1" />
                 <field name="inventory_quantity" />
-                <field name="diference_qty" />
-                <field name="user_id" />
+                <field name="diference_qty" readonly="1"/>
+                <field name="user_id" readonly="1" />
             </tree>
         </field>
     </record>

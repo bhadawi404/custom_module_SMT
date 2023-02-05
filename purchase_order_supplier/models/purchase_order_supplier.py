@@ -31,6 +31,8 @@ class SMTPurchaseOrderSupplier(models.Model):
     notes = fields.Text('Notes')
     count_delivery = fields.Integer('count_delivery', compute='_count_picking')
     count_invoice = fields.Integer('count_invoice', compute='_count_invoice')
+    type_operation_id = fields.Many2one('smt.inventory.operation.type', string='Operation Type', compute='_compute_get_operation_type')
+    destination_location_id = fields.Many2one('smt.inventory.stock.location', string='Location',compute="_compute_get_location")
     
     def _count_picking(self):
         for rec in self:
@@ -75,6 +77,19 @@ class SMTPurchaseOrderSupplier(models.Model):
         res = super(SMTPurchaseOrderSupplier, self).create(vals)
         return res
     
+    @api.depends('supplier_id')
+    def _compute_get_operation_type(self):    
+        for rec in self:
+            operation_ids = self.env['smt.inventory.operation.type'].search([('code','=','RIS')])
+            rec.type_operation_id = operation_ids.id
+    
+    @api.depends('supplier_id')
+    def _compute_get_location(self):   
+        for rec in self: 
+            location_ids =  self.env['smt.inventory.stock.location'].search([('type_id.code','=','RIS')]).id
+            rec.destination_location_id = location_ids
+            
+        
     @api.ondelete(at_uninstall=False)
     def _unlink_except_done_or_cancel(self):
         for rec in self:

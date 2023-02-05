@@ -9,9 +9,10 @@
     'description': "",
     'website': 'https://smtek-tool.com/',
     'depends': [
-        'core_smt'
+        'core_smt','master_data'
     ],
     'data': [
+        'views/inventory_adjustment.xml',
         'views/inventory_stock_location.xml',
         'views/inventory_stock_warehouse.xml',
         'views/inventory_operation_type.xml',

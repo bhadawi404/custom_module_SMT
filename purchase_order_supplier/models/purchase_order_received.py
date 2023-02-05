@@ -18,6 +18,7 @@ class SMTPurchaseOrderSupplierReceived(models.Model):
         ('waiting', 'Waiting Product'),
         ('done', 'Done'),
     ], default='waiting', string="State")
+   
     
     @api.ondelete(at_uninstall=False)
     def _unlink_except_done_or_cancel(self):
@@ -38,6 +39,7 @@ class SMTPurchaseOrderSupplierReceived(models.Model):
     def button_received(self):
         now = datetime.now()
         invoice = self.env['smt.purchase.order.invoice']
+        stock_quant = self.env['smt.inventory.stock.quants']
         for rec in self.view_received_purchase_order_ids:
             if rec.quantity_done:
                 self.env['smt.purchase.order.supplier.line'].browse(rec.purchase_order_line.id).write({'quantity_received': rec.quantity_done})
@@ -46,6 +48,18 @@ class SMTPurchaseOrderSupplierReceived(models.Model):
                     {'purchase_order_id':self.purchase_order_id.id, 
                      'state':'draft'
                     })
+                
+                cek_stock = stock_quant.search([('product_id','=',rec.product_id.id),('location_id','=',rec.received_po_id.purchase_order_id.destination_location_id.id)])
+                if not cek_stock:
+                    stock_quants = stock_quant.create({
+                        'product_id': rec.product_id.id,
+                        'location_id':rec.received_po_id.purchase_order_id.destination_location_id.id,
+                        'quantity': rec.quantity_done,
+                        
+                    })
+                else:
+                    print('update stock saja')
+                    stock_quant.browse(cek_stock.id).write({'quantity': cek_stock.quantity + rec.quantity_done})
             else:
                 raise UserError(_("Sorry, You can't Received Product(s), Click set quantity first to received the product"))
 SMTPurchaseOrderSupplierReceived()

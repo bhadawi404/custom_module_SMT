@@ -11,5 +11,5 @@ class SMTStockLocation(models.Model):
     name = fields.Char('Location Name')
     capacity = fields.Float('Capacity Location')
     parent_id = fields.Many2one('smt.inventory.stock.location', string='Parent Location')
-
+    type_id = fields.Many2one('smt.inventory.operation.type', string='Operation type')
 SMTStockLocation()

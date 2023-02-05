@@ -5,5 +5,9 @@
     <menuitem id="smt_menu_inventory_configuration_operation_type" name="Operation type" parent="smt_menu_inventory_configuration" sequence="2" action="smt_inventory_operation_type_action"/>
     <menuitem id="smt_menu_inventory_configuration_stock_location" name="Location" parent="smt_menu_inventory_configuration" sequence="3" action="smt_inventory_stock_location_action"/>
 
+    <menuitem id="smt_menu_inventory_stock" name="Stock" parent="purchase_order_supplier.smt_menu_purchase_order_inventory_root" sequence="4"/>
+    <menuitem id="smt_menu_inventory_stock_item" name="Stock Item" parent="smt_menu_inventory_stock" sequence="1" action="smt_inventory_adjusment_item_action"/>
+    <menuitem id="smt_menu_inventory_stock_material" name="Stock Material" parent="smt_menu_inventory_stock" sequence="2" action="smt_inventory_adjusment_material_action"/>
+
     <!-- End Menu Purchase Order -->
 </odoo>

@@ -63,6 +63,8 @@
                         <group>
                             <field name="date_order" widget="date" attrs="{'readonly': [('state','in',('approved','done'))]}" />
                             <field name="ref_code" attrs="{'readonly': [('state','in',('approved','done'))]}"/>
+                            <field name="type_operation_id"  invisible="1"/>
+                            <field name="destination_location_id" invisible="1"/>
                         </group>
                     </group>
                     <notebook>

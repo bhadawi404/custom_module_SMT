@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import api, models, fields
+from odoo.exceptions import UserError
 
 class SMTQuotationCustomer(models.Model):
     _name = 'smt.quotation.customer'
@@ -43,6 +44,12 @@ class SMTQuotationCustomer(models.Model):
         res = super(SMTQuotationCustomer, self).create(vals)
         return res
     
+    @api.ondelete(at_uninstall=False)
+    def _unlink_except_done_or_cancel(self):
+        for rec in self:
+            if rec.state!='draft':
+                raise UserError(("Sorry, You can't delete Quotation(s) that has already been processed"))
+            
     @api.depends('quote_line_ids.total_price','discount')
     def _compute_net(self):
         for rec in self:

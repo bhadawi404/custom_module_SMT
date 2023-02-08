@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from odoo import api, models, fields
+from odoo import api, models, fields, _
+from odoo.exceptions import UserError
 
 class SMTDeliveryOrder(models.Model):
     _name = 'smt.delivery.order'
@@ -27,7 +28,12 @@ class SMTDeliveryOrder(models.Model):
             vals['name'] = self.env['ir.sequence'].next_by_code('smt.delivery.order') or '/'
         res = super(SMTDeliveryOrder, self).create(vals)
         return res
-
+    
+    @api.ondelete(at_uninstall=False)
+    def _unlink_except_done_or_cancel(self):
+        for rec in self:
+            if rec.state!='draft':
+                raise UserError(_("Sorry, You can't delete Delivery Order(s) that has already been processed"))
     def button_confirm(self):
         self.write({'state': 'confirm'})
     

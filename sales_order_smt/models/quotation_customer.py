@@ -18,7 +18,7 @@ class SMTQuotationCustomer(models.Model):
         ('cod', 'Cash On Delivery'),
         ('30_days', '30 Day After Invoice Receipt'),
     ], string='Payment Method')
-    quote_line_ids = fields.One2many('smt.quotation.line.customer', 'quote_id', string='Detail Quote')
+    quote_line_ids = fields.One2many('smt.quotation.line.customer', 'quote_id', string='Detail Quote',ondelete='cascade')
     subtotal = fields.Float('Total')
     discount = fields.Float('Discount')
     net = fields.Float('Net', compute='_compute_net', store=True)
@@ -91,7 +91,7 @@ class SMTQuotationLineCustomer(models.Model):
     
     quote_id = fields.Many2one('smt.quotation.customer', string='Quote ID')
     product_name = fields.Char('Item Name')
-    quantity = fields.Float('Qty')
+    quantity = fields.Float('Qty', default=1)
     unit_price = fields.Float('Unit Price')
     total_price = fields.Float('Total Price',compute='_compute_total_price')
     

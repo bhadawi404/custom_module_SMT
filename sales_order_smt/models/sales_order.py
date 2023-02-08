@@ -12,7 +12,7 @@ class SMTSalesOrder(models.Model):
     customer_address = fields.Text('Customer_addres', related='customer_id.customer_address')
     customer_attn = fields.Char('Customer Attn', related='customer_id.customer_attn')
     source_document = fields.Char('PO. Number')
-    view_sales_line_ids = fields.One2many('smt.sales.order.line', 'sales_order_id', string='Sales Order Line')
+    view_sales_line_ids = fields.One2many('smt.sales.order.line', 'sales_order_id', string='Sales Order Line',ondelete='cascade')
     date = fields.Date('Date')
     subtotal = fields.Float('Total')
     discount = fields.Float('Discount')
@@ -25,7 +25,7 @@ class SMTSalesOrder(models.Model):
         ('draft', 'Draft'),
         ('request_to_admin','Requested'),
         ('confirm', 'Confirm'),
-        ('delivery', 'Delivery'),
+        ('partial_done', 'Partial'),
         ('done', 'Done')
     ], string='State')
     notes = fields.Text('Notes')
@@ -78,9 +78,14 @@ class SMTSalesOrderLine(models.Model):
     sales_order_id = fields.Many2one('smt.sales.order', string='SO')
     product_name = fields.Many2one('smt.master.data.product', string='Product Name', domain=[('sale_ok','=', True)])
     quantity = fields.Float('Qty')
+    qty_done = fields.Float('Qty Done')
     unit_price = fields.Float('Unit Price', related='product_name.item_price')
     total_price = fields.Float('Total Price',compute='_compute_total_price')
-    
+    state = fields.Selection([
+        ('partial_done', 'Partial'),
+        ('done', 'Done')
+    ], string='State')
+     
     @api.depends('quantity','unit_price')
     def _compute_total_price(self):
         for rec in self:

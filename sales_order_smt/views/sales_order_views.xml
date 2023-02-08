@@ -59,6 +59,7 @@
                                 <tree string="Description" editable="bottom">
                                     <field name="product_name"/>
                                     <field name="quantity"/>
+                                    <field name="qty_done" readonly="1" />
                                     <field name="unit_price"/>
                                     <field name="total_price" readonly="1"/>
                                 </tree>

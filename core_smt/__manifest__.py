@@ -9,7 +9,7 @@
     'description': "",
     'website': 'https://smtek-tool.com/',
     'depends': [
-        'base'
+        'base','web'
     ],
     'data': [
         'security/smt_security.xml'

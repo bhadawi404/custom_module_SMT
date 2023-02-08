@@ -9,7 +9,7 @@ class SMTSalesOrder(models.Model):
     customer_id = fields.Many2one('smt.master.data.customer', string='Customer Name')
     customer_email = fields.Char('Customer Email', related='customer_id.customer_email')
     customer_phone = fields.Char('Customer Phone', related='customer_id.customer_phone')
-    customer_address = fields.Text('Customer_addres', related='customer_id.customer_address')
+    customer_address = fields.Text('Customer Address', related='customer_id.customer_address')
     customer_attn = fields.Char('Customer Attn', related='customer_id.customer_attn')
     source_document = fields.Char('PO. Number')
     view_sales_line_ids = fields.One2many('smt.sales.order.line', 'sales_order_id', string='Sales Order Line',ondelete='cascade')
@@ -27,7 +27,7 @@ class SMTSalesOrder(models.Model):
         ('confirm', 'Confirm'),
         ('partial_done', 'Partial'),
         ('done', 'Done')
-    ], string='State')
+    ], string='State',default='draft')
     notes = fields.Text('Notes')
     payment_method = fields.Selection([
         ('cod', 'Cash On Delivery'),

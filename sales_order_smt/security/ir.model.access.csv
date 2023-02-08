@@ -1,3 +1,5 @@
 group_id:id,id,name,model_id:id,perm_read,perm_write,perm_create,perm_unlink
 base.group_user,access_model_smt_quotation_customer,access_model_smt_quotation_customer,model_smt_quotation_customer,1,1,1,1
 base.group_user,access_model_smt_quotation_line_customer,access_model_smt_quotation_line_customer,model_smt_quotation_line_customer,1,1,1,1
+base.group_user,access_model_smt_sales_order,access_model_smt_sales_order,model_smt_sales_order,1,1,1,1
+base.group_user,access_model_smt_sales_order_line,access_model_smt_sales_order_line,model_smt_sales_order_line,1,1,1,1

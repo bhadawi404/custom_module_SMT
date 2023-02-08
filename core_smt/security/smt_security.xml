@@ -6,6 +6,10 @@
         <record model="ir.module.category" id="category_user">
             <field name="name">SMT</field>
         </record>
+        <record id="groups_smt_administrator" model="res.groups">
+            <field name="name">Admin Teknis</field>
+            <field name="category_id" ref="core_smt.category_user"/>
+        </record>
         <record id="groups_smt_sales_1" model="res.groups">
             <field name="name">Admin Sales 1</field>
             <field name="category_id" ref="core_smt.category_user"/>

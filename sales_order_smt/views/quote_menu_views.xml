@@ -4,4 +4,5 @@
     <!-- End Menu Purchase Order -->
     <menuitem id="smt_menu_sales_order_root" name="Sales Order" web_icon="sales_order_smt,static/img/sales.png" groups="core_smt.groups_smt_sales_1"/>
     <menuitem id="smt_menu_sales_order" name="Order" parent="smt_menu_sales_order_root" sequence="1" action="smt_sales_order_action"/>
+    <menuitem id="smt_menu_delivery_order" name="Delivery Order" parent="smt_menu_sales_order_root" sequence="2" action="smt_delivery_order_action"/>
 </odoo>

@@ -1,0 +1,78 @@
+<odoo>
+    <record id="smt_delivery_order_view_tree" model="ir.ui.view">
+        <field name="name">smt.delivery.order.view.tree</field>
+        <field name="model">smt.delivery.order</field>
+        <field name="priority" eval="1"/>
+        <field name="arch" type="xml">
+            <tree string="Delivery Order" sample="1">
+                <field name="name"/>
+                <field name="source_document" />
+                <field name="state" widget="badge"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="smt_delivery_order_view_form" model="ir.ui.view">
+        <field name="name">smt.delivery.order.view.form</field>
+        <field name="model">smt.delivery.order</field>
+        <field name="priority" eval="1"/>
+        <field name="arch" type="xml">
+            <form string="Delivery Order" class="o_do">
+                <header>
+                    <!-- <button name="button_confirm" type="object" states="draft" string="Confirm Quote" class="oe_highlight" id="bid_confirm" data-hotkey="v"/>
+                    <button name="button_set_to_draft" type="object" states="confirm" string="Set To Draft" class="oe_highlight" id="bid_set_to_draft" data-hotkey="v"/>
+                    <button string="Win" name="button_win" type="object" class="oe_highlight" states="confirm"/>
+                    <button string="Lose" name="button_lose" type="object" class="oe_highlight" states="confirm"/>
+                    <button string="Negotiation" name="button_nego" type="object" class="oe_highlight" states="confirm"/>
+                    <button string="Convert To delivery Order" name="button_convert_so" type="object" class="oe_highlight" states="win"/> -->
+                    <field name="state" widget="statusbar" statusbar_visible="draft,assigned,done" readonly="1"/>
+                </header>
+                <widget name="web_ribbon" title="Done" bg_color="bg-success" attrs="{'invisible': [('state', '!=', 'done')]}"/>
+                <sheet>
+                    <div class="oe_title">
+                        <span class="o_form_label">Delivery Order No.</span>
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+
+                            <field name="sales_order_id" string="Sales Order"/>
+                            <field name="customer_id" widget="res_partner_many2one" attrs="{'readonly': [('state','!=','draft')]}" required="1" />
+                            <field name="customer_email" readonly="1"/>
+                            <field name="customer_phone" readonly="1"/>
+                            <field name="customer_address" readonly="1"/>
+                            <field name="customer_attn" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="receipt_date" widget="date" attrs="{'readonly': [('state','!=','draft')]}" required="1" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Description" name="products">
+                            <field name="view_delivery_line_ids" widget="section_and_note_one2many" mode="tree,kanban">
+                                <tree string="Description" editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="qty_request" readonly="1"/>
+                                    <field name="qty_send"  />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="smt_delivery_order_action" model="ir.actions.act_window">
+        <field name="name">Delivery Order</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">smt.delivery.order</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create"> No Delivery Order available. </p>
+            <p> Create new one from scratch. </p>
+        </field>
+    </record>
+</odoo>

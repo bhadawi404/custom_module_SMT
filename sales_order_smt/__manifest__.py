@@ -12,6 +12,7 @@
         'core_smt','crm_smt','master_data'
     ],
     'data': [
+        'views/delivery_order_views.xml',
         'views/sales_order_views.xml',
         'views/quotation_views.xml',
         'security/ir.model.access.csv',

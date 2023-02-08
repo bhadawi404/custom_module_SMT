@@ -22,12 +22,9 @@
         <field name="arch" type="xml">
             <form string="Sales Order" class="o_so">
                 <header>
-                    <!-- <button name="button_confirm" type="object" states="draft" string="Confirm Quote" class="oe_highlight" id="bid_confirm" data-hotkey="v"/>
+                    <button name="button_confirm" type="object" states="draft" string="Confirm Order" class="oe_highlight" id="bid_confirm" data-hotkey="v"/>
                     <button name="button_set_to_draft" type="object" states="confirm" string="Set To Draft" class="oe_highlight" id="bid_set_to_draft" data-hotkey="v"/>
-                    <button string="Win" name="button_win" type="object" class="oe_highlight" states="confirm"/>
-                    <button string="Lose" name="button_lose" type="object" class="oe_highlight" states="confirm"/>
-                    <button string="Negotiation" name="button_nego" type="object" class="oe_highlight" states="confirm"/>
-                    <button string="Convert To Sales Order" name="button_convert_so" type="object" class="oe_highlight" states="win"/> -->
+                    
                     <field name="state" widget="statusbar" statusbar_visible="draft,request_to_admin,confirm,delivery,done" readonly="1"/>
                 </header>
                 <widget name="web_ribbon" title="Done" bg_color="bg-success" attrs="{'invisible': [('state', '!=', 'done')]}"/>

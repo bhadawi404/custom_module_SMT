@@ -27,6 +27,13 @@ class SMTDeliveryOrder(models.Model):
             vals['name'] = self.env['ir.sequence'].next_by_code('smt.delivery.order') or '/'
         res = super(SMTDeliveryOrder, self).create(vals)
         return res
+
+    def button_confirm(self):
+        self.write({'state': 'confirm'})
+    
+    def button_set_to_draft(self):
+        self.write({'state': 'draft'})
+        
 SMTDeliveryOrder()
 
 class SMTDeliveryOrderLine(models.Model):

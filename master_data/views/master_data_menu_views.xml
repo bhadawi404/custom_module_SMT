@@ -1,7 +1,7 @@
 <odoo>
     <!-- Menu Master Data -->
     <menuitem id="master_data.smt_menu_master_data_root" name="Master Data" web_icon="master_data,static/img/master-data.png" groups="core_smt.groups_smt_sales_1"/>
-    <menuitem id="master_data.smt_menu_master_product" name="Product" parent="master_data.smt_menu_master_data_root" sequence="1"/>
+    <menuitem id="master_data.smt_menu_master_product" name="Product" parent="master_data.smt_menu_master_data_root" sequence="1" action="master_data.smt_master_data_product_views_customer_action"/>
     <menuitem id="master_data.smt_menu_master_product_customer" name="Product Customer" parent="master_data.smt_menu_master_product" sequence="1" action="master_data.smt_master_data_product_views_customer_action"/>
     <menuitem id="master_data.smt_menu_master_product_supplier" name="Product Supplier" parent="master_data.smt_menu_master_product" sequence="2" action="master_data.smt_master_data_product_views_supplier_action"/>
     

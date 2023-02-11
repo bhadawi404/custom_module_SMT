@@ -1,10 +1,11 @@
 <odoo>
     <!-- tree master data product -->
-    <record id="smt_master_data_product_views_tree" model="ir.ui.view">
-        <field name="name">smt.master.data.product.views.tree</field>
+    <record id="smt_master_data_product_views_supplier_tree" model="ir.ui.view">
+        <field name="name">smt.master.data.product.views.supplier.tree</field>
         <field name="model">smt.master.data.product</field>
         <field name="arch" type="xml">
-            <tree string="Master Product">
+            <tree string="Master Product Supplier">
+                <field name="supplier_id"/>
                 <field name="name"/>
                 <field name="item_description" />
                 <field name="item_price" />
@@ -14,11 +15,11 @@
     <!-- end tree master data product -->
 
     <!-- form master data product -->
-    <record id="smt_master_data_product_views_form" model="ir.ui.view">
-        <field name="name">smt.master.data.product.views.form</field>
+    <record id="smt_master_data_product_views_supplier_form" model="ir.ui.view">
+        <field name="name">smt.master.data.product.views.supplier.form</field>
         <field name="model">smt.master.data.product</field>
         <field name="arch" type="xml">
-            <form string="Master Product" duplicate="0">
+            <form string="Master Product Supplier" duplicate="0">
                 <sheet name="product_form">
                     <div class="oe_title">
                         <label for="name" string="Product Name"/>
@@ -36,11 +37,7 @@
                     </style>
                     <div name="options" groups="base.group_user">
                         <span class="d-inline-block">
-                            <field name="sale_ok"/>
-                            <label for="sale_ok"/>
-                        </span>
-                        <span class="d-inline-block">
-                            <field name="purchase_ok"/>
+                            <field name="purchase_ok" required="1"/>
                             <label for="purchase_ok"/>
                         </span>
                     </div>
@@ -50,8 +47,7 @@
                                 <group name="group_general">
                                     <field name="item_code" required="1"/>
                                     <field name="item_description" />
-                                    <field name="customer_id" attrs="{'invisible': [('sale_ok', '=', False)]}"/>
-                                    <field name="supplier_id" attrs="{'invisible': [('purchase_ok', '=', False)]}"/>
+                                    <field name="supplier_id"/>
                                 </group>
                                 <group name="group_price">
                                     <field name="item_price" required="1"/>
@@ -68,8 +64,8 @@
     <!-- end form master data product -->
 
     <!-- kanban master data product -->
-    <record id="smt_master_data_product_views_kanban" model="ir.ui.view">
-        <field name="name">smt_master_data_product_views_kanban</field>
+    <record id="smt_master_data_product_views_supplier_kanban" model="ir.ui.view">
+        <field name="name">smt.master.data.product.views.supplier.kanban</field>
         <field name="model">smt.master.data.product</field>
         <field name="arch" type="xml">
             <kanban sample="1">
@@ -82,8 +78,7 @@
                                 <field name="priority" widget="priority" readonly="1"/>
                                 <strong class="o_kanban_record_title">
                                     <field name="name"/>
-                                    <small t-if="record.item_code.value">[                                        <field name="item_code"/>
-]</small>
+                                    <small t-if="record.item_code.value">[<field name="item_code"/>]</small>
                                 </strong>
                                 <ul>
                                     <li>
@@ -101,15 +96,138 @@
     <!-- end kanban master data product -->
 
     <!-- action master data product -->
-    <record id="smt_master_data_product_views_action" model="ir.actions.act_window">
-        <field name="name">Master Product</field>
+    <record id="smt_master_data_product_views_supplier_action" model="ir.actions.act_window">
+        <field name="name">Master Product Supplier</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">smt.master.data.product</field>
         <field name="view_mode">kanban,tree,form</field>
+        <field name="domain">[('purchase_ok', '=', True)]</field>
         <field name="help" type="html">
-            <p class="oe_view_nocontent_create"> No Master Product available. </p>
+            <p class="oe_view_nocontent_create"> No Master Product Supplier available. </p>
             <p> Create new one from scratch. </p>
         </field>
+        <field name="view_ids" 
+                eval="[(5, 0, 0), 
+                (0, 0, {'view_mode': 'kanban', 'view_id': ref('master_data.smt_master_data_product_views_supplier_kanban')}),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('master_data.smt_master_data_product_views_supplier_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('master_data.smt_master_data_product_views_supplier_form')})]"/>
+    </record>
+    <!-- end action master data product -->
+
+    #################
+    <!-- tree master data product -->
+    <record id="smt_master_data_product_views_customer_tree" model="ir.ui.view">
+        <field name="name">smt.master.data.product.views.customer.tree</field>
+        <field name="model">smt.master.data.product</field>
+        <field name="arch" type="xml">
+            <tree string="Master Product Customer">
+                <field name="customer_id"/>
+                <field name="name"/>
+                <field name="item_description" />
+                <field name="item_price" />
+            </tree>
+        </field>
+    </record>
+    <!-- end tree master data product -->
+
+    <!-- form master data product -->
+    <record id="smt_master_data_product_views_customer_form" model="ir.ui.view">
+        <field name="name">smt.master.data.product.views.customer.form</field>
+        <field name="model">smt.master.data.product</field>
+        <field name="arch" type="xml">
+            <form string="Master Product Customer" duplicate="0">
+                <sheet name="product_form">
+                    <div class="oe_title">
+                        <label for="name" string="Product Name"/>
+                        <h1>
+                            <div class="d-flex">
+                                <field name="priority" widget="priority" class="mr-3"/>
+                                <field class="text-break" name="name" placeholder="e.g. Cheese Burger" required="1"/>
+                            </div>
+                        </h1>
+                    </div>
+                    <style> div[name="options"] .o_field_boolean {
+                                margin-left: 10px;
+                                margin-right: 0px;
+                            }
+                    </style>
+                    <div name="options" groups="base.group_user">
+                        <span class="d-inline-block">
+                            <field name="sale_ok" required="1"/>
+                            <label for="sale_ok"/>
+                        </span>
+                    </div>
+                    <notebook>
+                        <page string="General Information" name="general_information">
+                            <group>
+                                <group name="group_general">
+                                    <field name="item_code" required="1"/>
+                                    <field name="item_description" />
+                                    <field name="customer_id"/>
+                                </group>
+                                <group name="group_price">
+                                    <field name="item_price" required="1"/>
+                                    <field name="item_diameter" />
+                                    <field name="category_id" />
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+
+            </form>
+        </field>
+    </record>
+    <!-- end form master data product -->
+
+    <!-- kanban master data product -->
+    <record id="smt_master_data_product_views_customer_kanban" model="ir.ui.view">
+        <field name="name">smt.master.data.product.views.customer.kanban</field>
+        <field name="model">smt.master.data.product</field>
+        <field name="arch" type="xml">
+            <kanban sample="1">
+                <field name="id"/>
+                <field name="item_price"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="oe_kanban_details">
+                                <field name="priority" widget="priority" readonly="1"/>
+                                <strong class="o_kanban_record_title">
+                                    <field name="name"/>
+                                    <small t-if="record.item_code.value">[<field name="item_code"/>]</small>
+                                </strong>
+                                <ul>
+                                    <li>
+                                        <strong>Price: <field name="item_price"></field>
+                                        </strong>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    <!-- end kanban master data product -->
+
+    <!-- action master data product -->
+    <record id="smt_master_data_product_views_customer_action" model="ir.actions.act_window">
+        <field name="name">Master Product Customer</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">smt.master.data.product</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="domain">[('sale_ok', '=', True)]</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create"> No Master Product Customer available. </p>
+            <p> Create new one from scratch. </p>
+        </field>
+        <field name="view_ids" 
+                eval="[(5, 0, 0), 
+                (0, 0, {'view_mode': 'kanban', 'view_id': ref('master_data.smt_master_data_product_views_customer_kanban')}),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('master_data.smt_master_data_product_views_customer_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('master_data.smt_master_data_product_views_customer_form')})]"/>
     </record>
     <!-- end action master data product -->
 </odoo>

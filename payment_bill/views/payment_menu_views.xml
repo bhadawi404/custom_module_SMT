@@ -1,6 +1,6 @@
 <odoo>
     <!-- Menu Purchase Order -->
-    <menuitem id="smt_menu_payment_sub_root" parent="purchase_order_supplier.smt_menu_purchase_order_invoice_root" name="Payment" sequence="2"/>
+    <menuitem id="smt_menu_payment_sub_root" parent="purchase_order_supplier.smt_menu_purchase_order_invoice_root" name="Payment" sequence="2" groups="core_smt.groups_smt_fincance"/>
     <menuitem id="smt_menu_payment_supplier" name="Payment Invoice Supplier" parent="smt_menu_payment_sub_root" sequence="1" action="smt_payment_views_action"/>
     <!-- End Menu Purchase Order -->
 </odoo>

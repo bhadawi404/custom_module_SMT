@@ -23,5 +23,15 @@ class SMTProduct(models.Model):
     supplier_id = fields.Many2one(
         'smt.master.data.supplier', string='Supplier Name')
     item_diameter = fields.Char('Item Diameter')
+    category_id = fields.Many2one('smt.master.data.product.category', string='Category Product')
 
 SMTProduct()
+
+class SMTProductCategory(models.Model):
+    _name = 'smt.master.data.product.category'
+    _description = 'Master Data Product Category Sukses Mandiri Teknindo'
+
+    name = fields.Char('Category Name')
+    parent_id = fields.Many2one('smt.master.data.product.category', string='Parent Category')
+
+SMTProductCategory()
